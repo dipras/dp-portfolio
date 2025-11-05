@@ -1,6 +1,7 @@
 const { defineConfig } = require('vite');
 const { resolve, basename } = require('path');
 const tailwindcss = require("@tailwindcss/vite");
+const injectHTML = require("vite-plugin-html-inject");
 const fs = require('fs');
 
 
@@ -27,6 +28,7 @@ module.exports = defineConfig({
     open: true,   
   },
   plugins: [
-    tailwindcss.default()
+    tailwindcss.default(),
+    injectHTML()
   ]
 });

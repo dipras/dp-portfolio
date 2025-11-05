@@ -1,34 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description"
-        content="Aldy Prastyo (Dipras) — a cheerful yet introverted hobbyist developer from Telkom University Surabaya who loves exploring low-level programming like C and Rust." />
-    <meta name="keywords"
-        content="Aldy Prastyo, Dipras, web developer, hobbyist, low level, C, Rust, Telkom University Surabaya, exportexpert indonesia" />
-    <meta name="author" content="Aldy Prastyo" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <title>Aldy Prastyo — Dipras</title>
-
-    <link rel="preload" href="style.css" as="style" />
-    <link rel="stylesheet" href="style.css" />
-</head>
+<load src="partial/head.htm" 
+    keywords="Aldy Prastyo, Dipras, web developer, hobbyist, low level, C, Rust, Telkom University Surabaya, exportexpert indonesia" 
+    description="Aldy Prastyo (Dipras) — a cheerful yet introverted hobbyist developer from Telkom University Surabaya who loves exploring low-level programming like C and Rust."
+    title="Aldy Prastyo — Dipras"
+/>
 
 <body class="bg-white text-gray-800 font-sans selection:bg-sky-200 selection:text-gray-800">
-    <!-- Header -->
-    <header class="flex justify-end items-center max-w-4xl mx-auto px-6 py-6">
-        <nav class="space-x-4">
-            <a href="#about" class="text-gray-600 hover:text-sky-700 transition">About</a>
-            <a href="#articles" class="text-gray-600 hover:text-sky-700 transition">Articles</a>
-            <a href="#contact" class="text-gray-600 hover:text-sky-700 transition">Contact</a>
-        </nav>
-    </header>
+    <load src="partial/navbar.htm" />
+    
 
     <!-- Hero -->
     <main class="max-w-4xl mx-auto px-6 py-20 text-center">
-        <h2 class="text-4xl font-bold text-gray-900 mb-4 fade-in-up">Hi, I'm <span class="text-sky-700">Aldy Prastyo</span> 👋</h2>
+        <h2 class="text-4xl font-bold text-gray-900 mb-4 fade-in-up">Hi, I'm <span class="text-sky-700">Aldy
+                Prastyo</span> 👋</h2>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto fade-in-up fade-in-delay-2">
             People call me <span class="font-medium text-gray-800">Dipras</span>.
             I'm a cheerful yet introverted developer who loves exploring how things work — from the lowest bits in
@@ -79,13 +65,16 @@
                 aria-label="GitHub">
                 <img loading="lazy" src="/icons/github.svg" alt="GitHub" class="w-6 h-6">
             </a>
-            <a href="https://facebook.com/dipras75" target="_blank" class="hover:text-gray-800 transition cursor-pointer" aria-label="Facebook">
+            <a href="https://facebook.com/dipras75" target="_blank"
+                class="hover:text-gray-800 transition cursor-pointer" aria-label="Facebook">
                 <img loading="lazy" src="/icons/facebook.svg" alt="Facebook" class="w-6 h-6">
             </a>
-            <a href="https://t.me/dipras75" target="_blank" class="hover:text-gray-800 transition cursor-pointer" aria-label="Telegram">
+            <a href="https://t.me/dipras75" target="_blank" class="hover:text-gray-800 transition cursor-pointer"
+                aria-label="Telegram">
                 <img loading="lazy" src="/icons/telegram.svg" alt="Telegram" class="w-6 h-6">
             </a>
-            <a href="mailto:dipras75@gmail.com" class="hover:text-gray-800 transition cursor-pointer" aria-label="Email">
+            <a href="mailto:dipras75@gmail.com" class="hover:text-gray-800 transition cursor-pointer"
+                aria-label="Email">
                 <img loading="lazy" src="/icons/email.svg" alt="Email" class="w-6 h-6">
             </a>
         </div>
@@ -99,8 +88,6 @@
         class="hidden fixed bottom-6 right-6 z-50 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-full shadow-lg transition duration-300 cursor-pointer">
         ↑
     </button>
-
-    <script type="module" src="script.js" defer></script>
 </body>
 
 </html>
