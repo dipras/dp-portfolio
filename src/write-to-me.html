@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<load 
-    src="partial/head.htm"
+<load src="partial/head.htm"
     description="Write anonymous messages to Aldy Prastyo (Dipras). Share your thoughts, feedback, or questions securely and privately. Your identity is guaranteed to be protected."
     keywords="Aldy Prastyo, Dipras, anonymous message, feedback, contact, write message, private message, secure communication, anonymous feedback, Telkom University"
-    title="Write to Me — Aldy Prastyo"
-/>   
+    title="Write to Me — Aldy Prastyo" />
 
 <body class="bg-white text-gray-800 font-sans selection:bg-sky-200 selection:text-gray-800">
-    <load src="partial/navbar.htm" />    
+    <script defer type="module" src="comment.js"></script>
+    <load src="partial/navbar.htm" />
 
     <main class="max-w-4xl mx-auto px-6 py-24 text-center">
-        <h2 class="text-4xl font-bold text-gray-900 mb-6 fade-in-up"><span class="text-sky-700">Write</span> something to Me</h2>
+        <h2 class="text-4xl font-bold text-gray-900 mb-6 fade-in-up"><span class="text-sky-700">Write</span> something
+            to Me</h2>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-16 fade-in-up fade-in-delay-2">
-            You can tell me anything you want to <span class="text-sky-700">me</span> on this page. The security of <span class="text-sky-700">your identity is guaranteed</span>, so there's no need to worry.
+            You can tell me anything you want to <span class="text-sky-700">me</span> on this page. The security of
+            <span class="text-sky-700">your identity is guaranteed</span>, so there's no need to worry.
         </p>
 
-        <form class="text-start flex flex-col max-w-md mx-auto space-y-4">
-            <input type="text" placeholder="Your Name (Optional)" class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500">
-            <textarea placeholder="Write your message here..." rows="6" class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500 resize-vertical"></textarea>
-            <button type="submit" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 ease-in-out cursor-pointer">Send Thougt</button>
+        <form class="text-start flex flex-col max-w-md mx-auto space-y-4" method="post" id="comment-form">
+            <input type="text" placeholder="Your Name (Optional)"
+                class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500" name="name">
+            <textarea placeholder="Write your message here..." rows="6"
+                class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500 resize-vertical" required name="comment"></textarea>
+            <button type="submit"
+                class="w-full bg-sky-700 hover:bg-sky-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 ease-in-out cursor-pointer" id="comment-btn">Send
+                Thougt</button>
         </form>
     </main>
 
     <section class="max-w-4xl mx-auto px-6 py-16">
-        <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">People's Thoughts About <span class="text-sky-700">Me</span></h3>
+        <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">People's Thoughts About <span
+                class="text-sky-700">Me</span></h3>
 
-        <div class="max-w-2xl mx-auto space-y-4">
-            <div class="border border-gray-200 p-4 rounded-lg">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-medium text-gray-900">Anonymous</h4>
-                    <span class="text-xs text-gray-400">2 days ago</span>
-                </div>
-                <p class="text-gray-600 text-sm leading-relaxed">Hello Dipras, can you reply my Email? Thank you</p>
-            </div>
-            <div class="border border-gray-200 p-4 rounded-lg">
-                <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-medium text-gray-900">Neko</h4>
-                    <span class="text-xs text-gray-400">1 week ago</span>
-                </div>
-                <p class="text-gray-600 text-sm leading-relaxed">Mas kapan kita maen cees lagi?</p>
+        <div class="max-w-2xl mx-auto space-y-4" id="comment-section">
+            <div class="flex justify-center">
+                <load src="partial/spinner.htm" />
             </div>
         </div>
     </section>
