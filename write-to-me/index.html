@@ -12,9 +12,9 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>Write to Me — Aldy Prastyo</title>
 
-  <script type="module" crossorigin src="/assets/write-to-me-YhRsXCtT.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/script-BpwsN8_y.js">
-  <link rel="stylesheet" crossorigin href="/assets/script-Mo1aXNGf.css">
+  <script type="module" crossorigin src="/assets/write-to-me-B1pYZ_VN.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/script-DuZj9KI8.js">
+  <link rel="stylesheet" crossorigin href="/assets/script-B3hIuPJa.css">
 </head>
 
 <body class="bg-white text-gray-800 font-sans selection:bg-sky-200 selection:text-gray-800">
@@ -39,6 +39,13 @@
                 class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500" name="name">
             <textarea placeholder="Write your message here..." rows="6"
                 class="w-full border border-gray-300 focus:border-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700/20 p-3 rounded-lg transition-all duration-300 ease-in-out hover:border-sky-500 resize-vertical" required name="comment"></textarea>
+
+            <!-- Profanity notice (minimal, English) -->
+            <div class="text-sm text-gray-600 max-w-md mx-auto text-left mb-2">
+                Please keep your message respectful. Profanity and offensive language are automatically filtered by my 
+                <a href="https://github.com/dipras/text-purifier" target="_blank" rel="noopener" class="text-sky-700 underline">text purifier</a>.
+            </div>
+
             <button type="submit"
                 class="w-full bg-sky-700 hover:bg-sky-800 text-white font-medium py-3 px-4 rounded-lg transition-all duration-300 ease-in-out cursor-pointer" id="comment-btn">Send
                 Thougt</button>
