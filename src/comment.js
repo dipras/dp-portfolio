@@ -25,7 +25,6 @@ const showNotification = (message, type = "success", timeout = 4000) => {
     }
 }
 
-// show inline field errors under inputs
 const clearFieldErrors = () => {
     const prev = commentForm.querySelectorAll('.dp-field-error');
     prev.forEach(el => el.remove());
@@ -69,12 +68,21 @@ const showFieldErrors = (errors = []) => {
     }
 }
 
+function get24HourTime(now) {
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    return `${hours}:${minutes}:${seconds}`;
+}
+
 const generateCommentEl = val => {
+    const d = new Date(val.created_at);
     return `
     <div class="border border-gray-200 p-4 rounded-lg">
         <div class="flex justify-between items-center mb-2">
             <h4 class="font-medium text-gray-900">${val.name}</h4>
-            <span class="text-xs text-gray-400">${val.created_at}</span>
+            <span class="text-xs text-gray-400">${d.getDate()}-${d.getMonth()}-${d.getFullYear()}  ${get24HourTime(d)}</span>
         </div>
         <p class="text-gray-600 text-sm leading-relaxed">${val.comment}</p>
     </div>
@@ -103,12 +111,11 @@ commentForm.addEventListener("submit", async e => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    const name = formData.get("name") ||  "Anonymous";
+    const name = formData.get("name") || "Anonymous";
     const comment = formData.get("comment");
 
     const prevBtnText = commentBtn.textContent;
     try {
-        // clear previous errors and set sending state
         clearFieldErrors();
         commentBtn.disabled = true;
         commentBtn.textContent = 'Sending...';
@@ -123,12 +130,10 @@ commentForm.addEventListener("submit", async e => {
 
         const result = await res.json().catch(() => null);
 
-        // handle validation (422) specially
         if (res.status === 422) {
             if (result && Array.isArray(result.errors)) {
                 showFieldErrors(result.errors);
             }
-            // show summary if available
             const summary = result && (result.summary || result.message) ? (result.summary || result.message) : 'Terdapat kesalahan pada input.';
             showNotification(summary, 'error');
             return;
@@ -140,10 +145,10 @@ commentForm.addEventListener("submit", async e => {
 
         commentSection.insertAdjacentHTML("afterbegin", generateCommentEl(result.data));
         commentForm.reset();
-        showNotification('Terima kasih — pesan Anda berhasil dikirim.', 'success');
+        showNotification('Thank you for your comment', 'success');
     } catch (error) {
         console.error(error);
-        showNotification('Gagal mengirim pesan. Silakan coba lagi.', 'error');
+        showNotification('Error sending your comment, please check the console for more information', 'error');
     } finally {
         commentBtn.disabled = false;
         commentBtn.textContent = prevBtnText;
