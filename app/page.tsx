@@ -37,7 +37,7 @@ export default function Home() {
             </div>
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS_MwChMuthrQ_H4rdr7jesH0fWrlZHsdGf1yAaM1201ZFQ6R6uTJ3gJo01GzXTMYgZnUi4mpQkC9gYPjNL9aJwJvN31FFbRm_TibZzjc5C7WfN90s7U2JKRILoLJTjdoBO71fInRnQfwB_H-IgtlMyk9hWTKpDLtRTSFU792WEgI19zRJDFw7-OuPWObXa7Ld5kTOJjBkIkCwR21NmdTC1QdGGquckA5jFuEzDyFmPUhThWa0WwNSBw2MJxv9nOP6A5v6OqAsW2h7")` }} ></div>
+                <div className="absolute inset-0 bg-cover bg-center bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuCS_MwChMuthrQ_H4rdr7jesH0fWrlZHsdGf1yAaM1201ZFQ6R6uTJ3gJo01GzXTMYgZnUi4mpQkC9gYPjNL9aJwJvN31FFbRm_TibZzjc5C7WfN90s7U2JKRILoLJTjdoBO71fInRnQfwB_H-IgtlMyk9hWTKpDLtRTSFU792WEgI19zRJDFw7-OuPWObXa7Ld5kTOJjBkIkCwR21NmdTC1QdGGquckA5jFuEzDyFmPUhThWa0WwNSBw2MJxv9nOP6A5v6OqAsW2h7')]"></div>
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white">
                   <div className="flex gap-2 mb-3">

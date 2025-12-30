@@ -9,12 +9,10 @@ export default function About() {
                         </div>
                         <div
                             className="relative size-48 md:size-64 rounded-4xl overflow-hidden border-4 border-white shadow-2xl shadow-primary/10 rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                            <div className="w-full h-full bg-cover bg-center"
-                                style={{ backgroundImage: `url('/about.webp')` }}>
+                            <div className="w-full h-full bg-cover bg-center bg-[url('/about.webp')]">
                             </div>
                         </div>
-                        <div className="absolute -bottom-6 -right-6 bg-white p-3 rounded-2xl shadow-lg border border-slate-100 hidden md:block animate-bounce"
-                            style={{ animationDuration: `3s` }}>
+                        <div className="absolute -bottom-6 -right-6 bg-white p-3 rounded-2xl shadow-lg border border-slate-100 hidden md:block animate-bounce [animation-duration:3s]">
                             <span className="material-symbols-outlined text-4xl text-primary">code</span>
                         </div>
                     </div>
