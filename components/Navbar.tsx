@@ -41,11 +41,11 @@ export default function Navbar() {
                         );
                     })}
                 </nav>
-                <button
+                <a href='/aldy_prastyo.pdf'
                     className="hidden md:flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transform hover:-translate-y-0.5 active:translate-y-0">
                     <span>Resume</span>
                     <span className="material-symbols-outlined text-[18px]">download</span>
-                </button>
+                </a>
                 <button className="md:hidden text-text-main p-2">
                     <span className="material-symbols-outlined">menu</span>
                 </button>

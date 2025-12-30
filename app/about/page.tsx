@@ -272,7 +272,7 @@ export default function About() {
                     </div>
                     <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-black opacity-10 blur-3xl">
                     </div>
-                    <div className="relative z-10 max-w-xl">
+                    <div className="relative z-10 max-w-sm">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Let's build something efficient together.
                         </h2>
                         <p className="text-sky-100 text-lg">
@@ -281,15 +281,15 @@ export default function About() {
                         </p>
                     </div>
                     <div className="relative z-10 flex flex-col sm:flex-row gap-4">
-                        <button
+                        <a href="/contact"
                             className="px-8 py-4 rounded-xl bg-white text-primary font-bold shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all transform hover:-translate-y-1">
                             Contact Me
-                        </button>
-                        <button
+                        </a>
+                        <a href="/aldy_prastyo.pdf"
                             className="px-8 py-4 rounded-xl bg-primary-hover border border-white/20 text-white font-bold hover:bg-sky-800 transition-all flex items-center justify-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">download</span>
                             Download CV
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
