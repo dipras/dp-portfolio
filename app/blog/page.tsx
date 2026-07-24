@@ -124,7 +124,7 @@ export default function Blog() {
                                 />
                             </div>
                             <div>
-                                <h3 className="text-lg font-bold">Hi, I'm Alex!</h3>
+                                <h3 className="text-lg font-bold">Hi, I'm Dipras!</h3>
                                 <p className="text-sm text-text-muted leading-relaxed mt-2">
                                     I'm a full-stack engineer passionate about C, Linux internals, and building performant
                                     web apps.

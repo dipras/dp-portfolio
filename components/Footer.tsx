@@ -20,7 +20,7 @@ export default function Footer() {
                     </div>
                 </div>
                 <div className="pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
-                    <p>© 2024 ProgrammerPortfolio. All rights reserved.</p>
+                    <p>© 2026 Aldy Prastyo. All rights reserved.</p>
                     <div className="flex gap-6 mt-4 md:mt-0 font-mono text-xs">
                         <span>v2.1.0</span>
                         <span>Sky Theme</span>
