@@ -1,6 +1,7 @@
 import http from "node:http";
 import { access, mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 import {
   contentHasMeaningfulValue,
   sanitizeContentHtml,
@@ -16,12 +17,12 @@ const directories = {
 };
 const publicDirectory = path.join(root, "public");
 const maxUploadBytes = 10 * 1024 * 1024;
-const allowedImageTypes = new Map([
-  ["image/jpeg", ".jpg"],
-  ["image/png", ".png"],
-  ["image/webp", ".webp"],
-  ["image/gif", ".gif"],
-  ["image/avif", ".avif"],
+const allowedImageTypes = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/avif",
 ]);
 
 function sendJson(response, status, value) {
@@ -57,8 +58,9 @@ async function saveUpload(request, searchParams) {
   if (!["thumbnail", "content"].includes(slot)) throw new Error("Invalid upload slot");
 
   const contentType = request.headers["content-type"]?.split(";")[0] ?? "";
-  const extension = allowedImageTypes.get(contentType);
-  if (!extension) throw new Error("Only JPEG, PNG, WebP, GIF, and AVIF images are allowed");
+  if (!allowedImageTypes.has(contentType)) {
+    throw new Error("Only JPEG, PNG, WebP, GIF, and AVIF images are allowed");
+  }
 
   const encodedName = request.headers["x-file-name"];
   if (!encodedName) throw new Error("Missing file name");
@@ -69,7 +71,7 @@ async function saveUpload(request, searchParams) {
       .toLowerCase()
       .replace(/[^a-z0-9_-]+/g, "-")
       .replace(/^-+|-+$/g, "") || "image";
-  const filename = `${stem}${extension}`;
+  const filename = `${stem}.webp`;
   const collection = kind === "post" ? "posts" : "projects";
   const assetDirectory = path.join(publicDirectory, "uploads", collection, slug, slot);
   const file = path.join(assetDirectory, filename);
@@ -87,12 +89,31 @@ async function saveUpload(request, searchParams) {
   }
   if (size === 0) throw new Error("Uploaded image is empty");
 
+  const original = Buffer.concat(chunks);
+  let converted;
+  try {
+    converted = await sharp(original, {
+      animated: true,
+      limitInputPixels: 40_000_000,
+    })
+      .rotate()
+      .webp({ quality: 84, effort: 4 })
+      .toBuffer();
+  } catch {
+    throw new Error("The uploaded file could not be decoded as an image");
+  }
+
   await mkdir(assetDirectory, { recursive: true });
-  await writeFile(temporary, Buffer.concat(chunks));
+  await writeFile(temporary, converted);
   await rename(temporary, file);
 
   const url = `/uploads/${collection}/${slug}/${slot}/${filename}`;
-  return { url, file: path.relative(root, file) };
+  return {
+    url,
+    file: path.relative(root, file),
+    originalBytes: original.length,
+    webpBytes: converted.length,
+  };
 }
 
 async function readCollections() {

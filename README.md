@@ -17,7 +17,7 @@ Then open `http://127.0.0.1:4173`. The landing screen lets you search, create, a
 
 The Studio loads Tailwind Browser and Quill from their pinned CDN versions, so the editor requires an internet connection. The published portfolio does not use those CDN assets.
 
-The editor can upload both thumbnail images and images inserted between content paragraphs. Uploaded assets are stored at:
+The editor can upload both thumbnail images and images inserted between content paragraphs. JPEG, PNG, WebP, GIF, and AVIF uploads are decoded and written as optimized WebP files before being referenced by JSON. Uploaded assets are stored at:
 
 - `public/uploads/posts/<slug>/thumbnail/`
 - `public/uploads/posts/<slug>/content/`

@@ -27,15 +27,17 @@
         @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-sky-600 focus:ring-4 focus:ring-sky-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500;
       }
       .soft-button {
-        @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700;
+        @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700;
       }
       .primary-button {
-        @apply inline-flex items-center justify-center gap-2 rounded-full bg-sky-700 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-700/20 transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50;
+        @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-sky-700 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-700/20 transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50;
       }
     }
   </style>
   <style>
     [hidden] { display: none !important; }
+    button:not(:disabled), [role="button"]:not([aria-disabled="true"]) { cursor: pointer; }
+    button:disabled { cursor: not-allowed; }
     #cdn-error.cdn-visible {
       position: fixed;
       inset: 0;
@@ -279,7 +281,7 @@
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
             <img id="thumbnail-preview" class="mb-3 hidden aspect-video w-full rounded-xl object-cover" alt="Thumbnail preview">
             <div id="thumbnail-placeholder" class="mb-3 flex aspect-video items-center justify-center rounded-xl bg-slate-200 text-sm font-bold text-slate-500">No thumbnail</div>
-            <button id="choose-thumbnail" type="button" class="soft-button w-full">Upload thumbnail</button>
+            <button id="choose-thumbnail" type="button" class="soft-button w-full">Upload & convert to WebP</button>
             <input id="thumbnail-file" class="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
             <input id="image" name="image" type="hidden">
           </div>
@@ -546,7 +548,13 @@
       });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || "Upload failed");
-      return result.url;
+      return result;
+    }
+
+    function uploadSummary(result) {
+      const before = Math.max(1, Math.round(result.originalBytes / 1024));
+      const after = Math.max(1, Math.round(result.webpBytes / 1024));
+      return "Converted to WebP · " + before + " KB → " + after + " KB";
     }
 
     function openImageDialog() {
@@ -685,16 +693,17 @@
         byId("choose-thumbnail").textContent = "Uploading…";
         byId("choose-thumbnail").disabled = true;
         try {
-          byId("image").value = await uploadImage(file, "thumbnail");
+          const result = await uploadImage(file, "thumbnail");
+          byId("image").value = result.url;
           if (!byId("imageAlt").value) byId("imageAlt").value = byId("title").value || file.name;
           updateThumbnailPreview();
           setDirty(true);
-          showToast("Thumbnail uploaded. Save to keep it.");
+          showToast(uploadSummary(result) + ". Save to keep it.");
         } catch (error) {
           showToast(error.message, true);
         } finally {
           event.target.value = "";
-          byId("choose-thumbnail").textContent = "Upload thumbnail";
+          byId("choose-thumbnail").textContent = "Upload & convert to WebP";
           byId("choose-thumbnail").disabled = false;
         }
       });
@@ -721,15 +730,15 @@
         button.disabled = true;
         button.textContent = "Uploading…";
         try {
-          const source = await uploadImage(state.pendingImage, "content");
+          const result = await uploadImage(state.pendingImage, "content");
           state.quill.insertEmbed(state.pendingImageIndex, "figure", {
-            src: source,
+            src: result.url,
             alt: byId("inline-alt").value.trim(),
             caption: byId("inline-caption").value.trim()
           }, "user");
           state.quill.insertText(state.pendingImageIndex + 1, "\n", "user");
           closeImageDialog();
-          showToast("Image inserted. Save to keep it.");
+          showToast(uploadSummary(result) + ". Image inserted.");
         } catch (error) {
           showToast(error.message, true);
         } finally {
