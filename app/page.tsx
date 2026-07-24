@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col">
@@ -20,19 +22,25 @@ export default function Home() {
                   People call me <span className="text-primary">Dipras</span>. I'm a cheerful yet introverted developer who loves exploring how things work — from the lowest bits in C to the high level JavaScript.
                 </p>
                 <p>
-                  Currently studying at Telkom University Surabaya and working part-time as a full-stack developer at ExportExpert Indonesia.
+                  Currently studying at Telkom University Surabaya and working a full-stack developer
                 </p>
                 <p className="italic font-mono text-sm text-slate-500">
                   "i use Arch btw"
                 </p>
               </div>
               <div className="flex flex-wrap gap-4 pt-2 animate-fade-in-up delay-200">
-                <button className="rounded-full bg-primary hover:bg-primary-hover text-white px-8 py-3.5 text-base font-bold transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5">
+                <Link
+                  href="/projects"
+                  className="rounded-full bg-primary hover:bg-primary-hover text-white px-8 py-3.5 text-base font-bold transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5"
+                >
                   View Projects
-                </button>
-                <button className="rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3.5 text-base font-bold transition-all hover:-translate-y-0.5">
+                </Link>
+                <Link
+                  href="/blog"
+                  className="rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3.5 text-base font-bold transition-all hover:-translate-y-0.5"
+                >
                   Read Blog
-                </button>
+                </Link>
               </div>
             </div>
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
