@@ -47,7 +47,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <Image src={post.image} alt={post.imageAlt} fill priority className="object-cover" />
         </div>
         <div className="max-w-3xl mx-auto text-lg text-slate-700 leading-8">
-          <ContentBody blocks={post.content} />
+          <ContentBody html={post.contentHtml} />
         </div>
         <footer className="max-w-3xl mx-auto mt-12 pt-8 border-t border-slate-200 flex flex-wrap gap-2">
           {post.tags.map((tag) => (

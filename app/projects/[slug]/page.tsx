@@ -75,7 +75,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="grid md:grid-cols-[1fr_15rem] gap-12 max-w-4xl mx-auto">
           <div className="text-lg text-slate-700 leading-8">
-            <ContentBody blocks={project.content} />
+            <ContentBody html={project.contentHtml} />
           </div>
           <aside>
             <h2 className="font-bold text-text-main mb-3">Built with</h2>

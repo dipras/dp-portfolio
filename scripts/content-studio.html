@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Content Studio</title>
+  <script>
+    window.__studioCdnFailed = false;
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.18" onerror="window.__studioCdnFailed=true"></script>
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" onerror="window.__studioCdnFailed=true">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js" onerror="window.__studioCdnFailed=true"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-brand: #0369a1;
+      --color-brand-hover: #0284c7;
+      --color-brand-soft: #e0f2fe;
+      --color-ink: #0f172a;
+      --color-muted: #64748b;
+    }
+
+    @layer components {
+      .field-label {
+        @apply mb-1.5 block text-xs font-bold uppercase tracking-wide text-slate-500;
+      }
+      .field-input {
+        @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 outline-none transition focus:border-sky-600 focus:ring-4 focus:ring-sky-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500;
+      }
+      .soft-button {
+        @apply inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition hover:border-sky-200 hover:bg-sky-50 hover:text-sky-700;
+      }
+      .primary-button {
+        @apply inline-flex items-center justify-center gap-2 rounded-full bg-sky-700 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-700/20 transition hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-50;
+      }
+    }
+  </style>
+  <style>
+    [hidden] { display: none !important; }
+    #cdn-error.cdn-visible {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      background: rgba(2, 6, 23, .9);
+      padding: 24px;
+    }
+    body { min-width: 320px; }
+    .ql-toolbar.ql-snow {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border: 0;
+      border-bottom: 1px solid #e2e8f0;
+      background: rgba(255, 255, 255, .96);
+      padding: 12px 16px;
+      backdrop-filter: blur(14px);
+    }
+    .ql-container.ql-snow { border: 0; font-family: inherit; }
+    .ql-editor {
+      min-height: calc(100vh - 124px);
+      padding: 52px clamp(28px, 6vw, 112px) 96px;
+      color: #334155;
+      font-size: 18px;
+      line-height: 1.85;
+    }
+    .ql-editor h2 { margin: 2.5rem 0 1rem; color: #0f172a; font-size: 2rem; font-weight: 700; }
+    .ql-editor h3 { margin: 2rem 0 .75rem; color: #0f172a; font-size: 1.5rem; font-weight: 700; }
+    .ql-editor p { margin-bottom: 1rem; }
+    .ql-editor blockquote {
+      border-left-color: #0369a1;
+      border-radius: 0 12px 12px 0;
+      background: #e0f2fe;
+      padding: 16px 20px;
+    }
+    .ql-editor pre.ql-syntax {
+      border-radius: 16px;
+      background: #0f172a;
+      padding: 18px;
+      color: #e2e8f0;
+    }
+    .ql-editor figure.studio-figure { margin: 2rem 0; }
+    .ql-editor figure.studio-figure img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, .14);
+    }
+    .ql-editor figure.studio-figure figcaption {
+      margin-top: 10px;
+      color: #64748b;
+      font-size: 13px;
+      text-align: center;
+    }
+    #editor-toolbar button.studio-history {
+      width: auto;
+      padding-inline: 6px;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    #editor-toolbar button.studio-history:hover { color: #0369a1; }
+    @media (max-width: 640px) {
+      .ql-toolbar.ql-snow { top: 0; overflow-x: auto; white-space: nowrap; }
+      .ql-editor { min-height: calc(100vh - 124px); padding: 36px 20px 72px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+  <div id="cdn-error" class="fixed inset-0 z-[100] hidden items-center justify-center bg-slate-950/80 p-6 backdrop-blur">
+    <div class="max-w-md rounded-3xl bg-white p-8 text-center shadow-2xl">
+      <div class="mx-auto mb-5 flex size-14 items-center justify-center rounded-2xl bg-rose-100 text-2xl text-rose-600">!</div>
+      <h1 class="text-2xl font-bold text-slate-950">Editor gagal dimuat</h1>
+      <p class="mt-3 text-sm leading-6 text-slate-600">Content Studio membutuhkan koneksi internet untuk memuat Tailwind dan Quill dari CDN. Periksa koneksi lalu refresh halaman.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="pointer-events-none fixed bottom-5 left-1/2 z-[90] hidden -translate-x-1/2 rounded-full bg-slate-950 px-5 py-3 text-sm font-bold text-white shadow-2xl"></div>
+
+  <section id="library-screen" class="min-h-screen">
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8">
+        <div class="flex items-center gap-3">
+          <div class="flex size-10 items-center justify-center rounded-2xl bg-sky-700 text-lg font-black text-white shadow-lg shadow-sky-700/20">&lt;/&gt;</div>
+          <div>
+            <h1 class="font-bold text-slate-950">Content Studio</h1>
+            <p class="text-xs text-slate-500">Static portfolio publisher</p>
+          </div>
+        </div>
+        <span class="hidden rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700 sm:inline-flex">Local only · 127.0.0.1</span>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-14">
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <span class="mb-3 inline-flex rounded-full bg-sky-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-sky-700">Your publishing desk</span>
+            <h2 class="max-w-2xl text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">What do you want to write today?</h2>
+            <p class="mt-4 max-w-xl text-base leading-7 text-slate-600">Choose existing content to continue editing, or start a fresh entry.</p>
+          </div>
+          <button id="new-entry" type="button" class="primary-button w-fit px-6 py-3">
+            <span class="text-lg leading-none">＋</span>
+            <span id="new-entry-label">New Article</span>
+          </button>
+        </div>
+
+        <div class="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+          <div class="inline-flex w-fit rounded-full bg-slate-200/70 p-1">
+            <button id="tab-post" type="button" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-sky-700 shadow-sm">Articles</button>
+            <button id="tab-project" type="button" class="rounded-full px-5 py-2 text-sm font-bold text-slate-500 transition hover:text-slate-900">Projects</button>
+          </div>
+          <label class="relative block w-full sm:max-w-sm">
+            <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">⌕</span>
+            <input id="search" class="field-input rounded-full pl-10" type="search" placeholder="Search title, category, or tag…">
+          </label>
+        </div>
+
+        <div id="library-empty" class="hidden rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-20 text-center">
+          <div class="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">✎</div>
+          <h3 class="text-xl font-bold text-slate-900">No content found</h3>
+          <p class="mt-2 text-sm text-slate-500">Try another search or create a new entry.</p>
+        </div>
+        <div id="library-grid" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"></div>
+      </div>
+    </main>
+  </section>
+
+  <section id="editor-screen" class="hidden h-screen overflow-hidden bg-white">
+    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div class="flex min-h-16 items-center gap-3 px-3 py-2 sm:px-5">
+        <button id="back-library" type="button" class="soft-button shrink-0 px-3 sm:px-4">
+          <span>←</span><span class="hidden sm:inline">Library</span>
+        </button>
+        <div class="min-w-0 flex-1">
+          <p id="editor-eyebrow" class="text-[11px] font-bold uppercase tracking-wider text-sky-700">Article editor</p>
+          <p id="editor-title" class="truncate text-sm font-bold text-slate-900">Untitled article</p>
+        </div>
+        <span id="dirty-status" class="hidden text-xs font-semibold text-amber-600 sm:inline">Unsaved changes</span>
+        <button id="toggle-metadata" type="button" class="soft-button shrink-0 px-3 sm:px-4">
+          <span>⚙</span><span class="hidden sm:inline">Metadata</span>
+        </button>
+        <button id="save-entry" type="button" class="primary-button shrink-0">
+          <span id="save-label">Save</span>
+        </button>
+      </div>
+    </header>
+
+    <div id="metadata-overlay" class="fixed inset-0 z-40 hidden bg-slate-950/30 backdrop-blur-sm lg:hidden"></div>
+    <main id="document-pane" class="h-[calc(100vh-65px)] overflow-y-auto bg-white transition-[padding] duration-300">
+      <div class="min-h-full w-full">
+        <div class="min-h-full w-full bg-white">
+          <div id="editor-toolbar">
+            <span class="ql-formats">
+              <select class="ql-header">
+                <option value="2">Heading 2</option>
+                <option value="3">Heading 3</option>
+                <option selected>Normal</option>
+              </select>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-bold" type="button"></button>
+              <button class="ql-italic" type="button"></button>
+              <button class="ql-underline" type="button"></button>
+              <button class="ql-strike" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-list" value="ordered" type="button"></button>
+              <button class="ql-list" value="bullet" type="button"></button>
+              <button class="ql-blockquote" type="button"></button>
+              <button class="ql-code-block" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-link" type="button"></button>
+              <button class="ql-image" type="button"></button>
+              <button class="ql-clean" type="button"></button>
+            </span>
+            <span class="ql-formats">
+              <button id="undo" class="studio-history" type="button">Undo</button>
+              <button id="redo" class="studio-history" type="button">Redo</button>
+            </span>
+          </div>
+          <div id="editor"></div>
+        </div>
+      </div>
+    </main>
+
+    <aside id="metadata-drawer" class="fixed bottom-0 right-0 top-[65px] z-50 w-full translate-x-full overflow-y-auto border-l border-slate-200 bg-white shadow-2xl transition-transform duration-300 sm:w-[390px] lg:z-30">
+      <form id="metadata-form" class="flex min-h-full flex-col">
+        <div class="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/95 px-5 py-4 backdrop-blur">
+          <div>
+            <h2 class="font-bold text-slate-950">Metadata</h2>
+            <p class="text-xs text-slate-500">Details shown around your content</p>
+          </div>
+          <button id="close-metadata" type="button" class="soft-button size-9 p-0">×</button>
+        </div>
+
+        <div class="grid flex-1 gap-5 p-5">
+          <div>
+            <label class="field-label" for="title">Title</label>
+            <input id="title" name="title" class="field-input" required>
+          </div>
+          <div>
+            <label class="field-label" for="slug">Slug</label>
+            <input id="slug" name="slug" class="field-input font-mono text-xs" required pattern="[a-z0-9]+(?:-[a-z0-9]+)*">
+            <p id="slug-hint" class="mt-1.5 text-xs text-slate-400">Generated from the title until first save.</p>
+          </div>
+          <div>
+            <label class="field-label" for="excerpt">Excerpt</label>
+            <textarea id="excerpt" name="excerpt" class="field-input min-h-28 resize-y" required></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label" for="category">Category</label>
+              <input id="category" name="category" class="field-input" required>
+            </div>
+            <div>
+              <label class="field-label" for="tags">Tags</label>
+              <input id="tags" name="tags" class="field-input" placeholder="Linux, C">
+            </div>
+          </div>
+
+          <div class="post-only grid grid-cols-2 gap-3">
+            <div>
+              <label class="field-label" for="date">Publish date</label>
+              <input id="date" name="date" class="field-input" type="date">
+            </div>
+            <div>
+              <label class="field-label" for="readTime">Reading time</label>
+              <input id="readTime" name="readTime" class="field-input" placeholder="5 min read">
+            </div>
+          </div>
+
+          <div class="project-only hidden">
+            <label class="field-label" for="year">Project year</label>
+            <input id="year" name="year" class="field-input" type="number" min="1970" max="2100">
+          </div>
+
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+            <img id="thumbnail-preview" class="mb-3 hidden aspect-video w-full rounded-xl object-cover" alt="Thumbnail preview">
+            <div id="thumbnail-placeholder" class="mb-3 flex aspect-video items-center justify-center rounded-xl bg-slate-200 text-sm font-bold text-slate-500">No thumbnail</div>
+            <button id="choose-thumbnail" type="button" class="soft-button w-full">Upload thumbnail</button>
+            <input id="thumbnail-file" class="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+            <input id="image" name="image" type="hidden">
+          </div>
+          <div>
+            <label class="field-label" for="imageAlt">Thumbnail alt text</label>
+            <input id="imageAlt" name="imageAlt" class="field-input" placeholder="Describe the image">
+          </div>
+
+          <div class="project-only hidden grid gap-4">
+            <div>
+              <label class="field-label" for="demoUrl">Demo URL</label>
+              <input id="demoUrl" name="demoUrl" class="field-input" type="url">
+            </div>
+            <div>
+              <label class="field-label" for="sourceUrl">Source URL</label>
+              <input id="sourceUrl" name="sourceUrl" class="field-input" type="url">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold">
+              Published
+              <input id="published" name="published" type="checkbox" class="size-4 accent-sky-700">
+            </label>
+            <label class="flex cursor-pointer items-center justify-between rounded-xl border border-slate-200 px-3 py-3 text-sm font-semibold">
+              Featured
+              <input id="featured" name="featured" type="checkbox" class="size-4 accent-sky-700">
+            </label>
+          </div>
+        </div>
+      </form>
+    </aside>
+  </section>
+
+  <div id="image-modal" class="fixed inset-0 z-[80] hidden items-center justify-center bg-slate-950/50 p-5 backdrop-blur-sm">
+    <form id="image-form" class="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+      <div class="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-950">Insert content image</h2>
+          <p id="image-filename" class="mt-1 truncate text-xs text-slate-500"></p>
+        </div>
+        <button id="cancel-image" class="soft-button size-9 p-0" type="button">×</button>
+      </div>
+      <div class="grid gap-4">
+        <div>
+          <label class="field-label" for="inline-alt">Alt text</label>
+          <input id="inline-alt" class="field-input" required placeholder="Describe what the image shows">
+        </div>
+        <div>
+          <label class="field-label" for="inline-caption">Caption <span class="normal-case text-slate-400">(optional)</span></label>
+          <input id="inline-caption" class="field-input" placeholder="Displayed below the image">
+        </div>
+        <button id="confirm-image" class="primary-button mt-2 w-full" type="submit">Upload & insert image</button>
+      </div>
+    </form>
+  </div>
+  <input id="content-image-file" class="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+
+  <script>
+    const state = {
+      collections: { post: [], project: [] },
+      activeKind: "post",
+      currentKind: "post",
+      originalSlug: "",
+      dirty: false,
+      metadataOpen: false,
+      slugTouched: false,
+      pendingImage: null,
+      pendingImageIndex: 0,
+      quill: null,
+    };
+
+    const byId = (id) => document.getElementById(id);
+    const libraryScreen = byId("library-screen");
+    const editorScreen = byId("editor-screen");
+    const metadataForm = byId("metadata-form");
+    const metadataDrawer = byId("metadata-drawer");
+    const metadataOverlay = byId("metadata-overlay");
+    const documentPane = byId("document-pane");
+    let toastTimer;
+
+    function showToast(message, error) {
+      const toast = byId("toast");
+      toast.textContent = message;
+      toast.className = "pointer-events-none fixed bottom-5 left-1/2 z-[90] -translate-x-1/2 rounded-full px-5 py-3 text-sm font-bold text-white shadow-2xl " + (error ? "bg-rose-600" : "bg-slate-950");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add("hidden"), 3200);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      })[character]);
+    }
+
+    function slugify(value) {
+      return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    }
+
+    function labelForKind(kind) {
+      return kind === "post" ? "Article" : "Project";
+    }
+
+    function setDirty(value) {
+      state.dirty = value;
+      byId("dirty-status").textContent = value ? "Unsaved changes" : "All changes saved";
+      byId("dirty-status").className = "hidden text-xs font-semibold sm:inline " + (value ? "text-amber-600" : "text-emerald-600");
+    }
+
+    function confirmDiscard() {
+      return !state.dirty || window.confirm("You have unsaved changes. Leave without saving?");
+    }
+
+    function setMetadataOpen(open) {
+      state.metadataOpen = open;
+      metadataDrawer.classList.toggle("translate-x-full", !open);
+      metadataOverlay.classList.toggle("hidden", !open);
+      documentPane.classList.toggle("lg:pr-[390px]", open);
+    }
+
+    function updateTabs() {
+      for (const kind of ["post", "project"]) {
+        const button = byId("tab-" + kind);
+        const active = state.activeKind === kind;
+        button.className = active
+          ? "rounded-full bg-white px-5 py-2 text-sm font-bold text-sky-700 shadow-sm"
+          : "rounded-full px-5 py-2 text-sm font-bold text-slate-500 transition hover:text-slate-900";
+      }
+      byId("new-entry-label").textContent = state.activeKind === "post" ? "New Article" : "New Project";
+    }
+
+    function renderLibrary() {
+      updateTabs();
+      const query = byId("search").value.trim().toLowerCase();
+      const entries = state.collections[state.activeKind].filter((entry) => {
+        const haystack = [entry.title, entry.category, ...(entry.tags || [])].join(" ").toLowerCase();
+        return !query || haystack.includes(query);
+      });
+      const grid = byId("library-grid");
+      grid.replaceChildren();
+      byId("library-empty").classList.toggle("hidden", entries.length > 0);
+
+      for (const entry of entries) {
+        const article = document.createElement("article");
+        article.className = "group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/40";
+        const media = entry.image
+          ? '<img src="' + escapeHtml(entry.image) + '" alt="" class="h-44 w-full object-cover transition duration-500 group-hover:scale-105">'
+          : '<div class="flex h-44 items-center justify-center bg-slate-900 text-5xl text-sky-500">⌘</div>';
+        const date = state.activeKind === "post" ? entry.date : entry.year;
+        article.innerHTML =
+          '<button type="button" class="block w-full text-left">' +
+            '<div class="overflow-hidden">' + media + '</div>' +
+            '<div class="p-5">' +
+              '<div class="mb-3 flex items-center justify-between gap-3">' +
+                '<span class="rounded-full px-2.5 py-1 text-[11px] font-bold ' + (entry.published ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700") + '">' + (entry.published ? "Published" : "Draft") + '</span>' +
+                '<span class="text-xs font-semibold text-slate-400">' + escapeHtml(date) + '</span>' +
+              '</div>' +
+              '<h3 class="line-clamp-2 text-xl font-bold text-slate-950 transition group-hover:text-sky-700">' + escapeHtml(entry.title) + '</h3>' +
+              '<p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">' + escapeHtml(entry.excerpt) + '</p>' +
+              '<div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">' +
+                '<span class="text-xs font-bold uppercase tracking-wide text-sky-700">' + escapeHtml(entry.category) + '</span>' +
+                '<span class="text-sm font-bold text-slate-700">Edit →</span>' +
+              '</div>' +
+            '</div>' +
+          '</button>';
+        article.querySelector("button").addEventListener("click", () => openEditor(state.activeKind, entry));
+        grid.append(article);
+      }
+    }
+
+    async function loadCollections() {
+      const response = await fetch("/api/content");
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Could not load content");
+      state.collections = result;
+      renderLibrary();
+    }
+
+    function defaultEntry(kind) {
+      const now = new Date();
+      return kind === "post"
+        ? {
+            title: "", slug: "", excerpt: "", date: now.toISOString().slice(0, 10),
+            readTime: "5 min read", category: "", tags: [], image: "", imageAlt: "",
+            featured: false, published: false, contentHtml: "<p><br></p>"
+          }
+        : {
+            title: "", slug: "", excerpt: "", year: now.getFullYear(),
+            category: "", tags: [], image: "", imageAlt: "", featured: false,
+            published: false, sourceUrl: "", demoUrl: "", contentHtml: "<p><br></p>"
+          };
+    }
+
+    function updateThumbnailPreview() {
+      const source = byId("image").value.trim();
+      byId("thumbnail-preview").classList.toggle("hidden", !source);
+      byId("thumbnail-placeholder").classList.toggle("hidden", Boolean(source));
+      if (source) byId("thumbnail-preview").src = source;
+    }
+
+    function configureMetadata(kind) {
+      document.querySelectorAll(".post-only").forEach((node) => node.classList.toggle("hidden", kind !== "post"));
+      document.querySelectorAll(".project-only").forEach((node) => node.classList.toggle("hidden", kind !== "project"));
+      byId("date").required = kind === "post";
+      byId("year").required = kind === "project";
+    }
+
+    function populateMetadata(entry) {
+      metadataForm.reset();
+      for (const element of metadataForm.elements) {
+        if (!element.name) continue;
+        if (element.type === "checkbox") element.checked = Boolean(entry[element.name]);
+        else if (element.name === "tags") element.value = (entry.tags || []).join(", ");
+        else element.value = entry[element.name] ?? "";
+      }
+      byId("slug").disabled = Boolean(state.originalSlug);
+      byId("slug-hint").textContent = state.originalSlug
+        ? "Slug is locked after the first save."
+        : "Generated from the title until first save.";
+      updateThumbnailPreview();
+    }
+
+    function openEditor(kind, existingEntry) {
+      state.currentKind = kind;
+      state.originalSlug = existingEntry?.slug || "";
+      state.slugTouched = Boolean(existingEntry);
+      const entry = existingEntry || defaultEntry(kind);
+      configureMetadata(kind);
+      populateMetadata(entry);
+      state.quill.setContents([]);
+      state.quill.clipboard.dangerouslyPasteHTML(entry.contentHtml || "<p><br></p>", "silent");
+      state.quill.setSelection(0, 0, "silent");
+      state.quill.root.scrollTop = 0;
+      byId("editor-eyebrow").textContent = labelForKind(kind) + " editor";
+      byId("editor-title").textContent = entry.title || "Untitled " + labelForKind(kind).toLowerCase();
+      libraryScreen.classList.add("hidden");
+      editorScreen.classList.remove("hidden");
+      setMetadataOpen(window.innerWidth >= 1024);
+      setDirty(false);
+      window.scrollTo(0, 0);
+      documentPane.scrollTop = 0;
+    }
+
+    function showLibrary() {
+      if (!confirmDiscard()) return;
+      setDirty(false);
+      editorScreen.classList.add("hidden");
+      libraryScreen.classList.remove("hidden");
+      setMetadataOpen(false);
+      window.scrollTo(0, 0);
+    }
+
+    async function uploadImage(file, slot) {
+      const slug = byId("slug").value.trim();
+      if (!file) throw new Error("Choose an image first");
+      if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Set a valid slug before uploading");
+      if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 10 MB or smaller");
+
+      const query = new URLSearchParams({ kind: state.currentKind, slug, slot });
+      const response = await fetch("/api/upload?" + query, {
+        method: "POST",
+        headers: { "content-type": file.type, "x-file-name": encodeURIComponent(file.name) },
+        body: file
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Upload failed");
+      return result.url;
+    }
+
+    function openImageDialog() {
+      state.pendingImageIndex = state.quill.getSelection(true)?.index ?? Math.max(0, state.quill.getLength() - 1);
+      byId("content-image-file").click();
+    }
+
+    function closeImageDialog() {
+      state.pendingImage = null;
+      byId("image-form").reset();
+      byId("image-modal").classList.add("hidden");
+      byId("image-modal").classList.remove("flex");
+    }
+
+    function initQuill() {
+      const BlockEmbed = Quill.import("blots/block/embed");
+      class FigureBlot extends BlockEmbed {
+        static blotName = "figure";
+        static tagName = "figure";
+        static className = "studio-figure";
+
+        static create(value) {
+          const node = super.create();
+          const image = document.createElement("img");
+          image.setAttribute("src", value.src);
+          image.setAttribute("alt", value.alt || "Content image");
+          node.append(image);
+          if (value.caption) {
+            const caption = document.createElement("figcaption");
+            caption.textContent = value.caption;
+            node.append(caption);
+          }
+          return node;
+        }
+
+        static value(node) {
+          const image = node.querySelector("img");
+          return {
+            src: image?.getAttribute("src") || "",
+            alt: image?.getAttribute("alt") || "Content image",
+            caption: node.querySelector("figcaption")?.textContent || ""
+          };
+        }
+      }
+      Quill.register(FigureBlot);
+
+      state.quill = new Quill("#editor", {
+        theme: "snow",
+        placeholder: "Start writing your story…",
+        modules: {
+          history: { delay: 700, maxStack: 100, userOnly: true },
+          toolbar: {
+            container: "#editor-toolbar",
+            handlers: { image: openImageDialog }
+          }
+        }
+      });
+      state.quill.on("text-change", (_delta, _old, source) => {
+        if (source === "user") setDirty(true);
+      });
+      byId("undo").addEventListener("click", () => state.quill.history.undo());
+      byId("redo").addEventListener("click", () => state.quill.history.redo());
+    }
+
+    async function saveEntry() {
+      if (!metadataForm.reportValidity()) {
+        setMetadataOpen(true);
+        return;
+      }
+      const formData = Object.fromEntries(new FormData(metadataForm));
+      const contentHtml = state.quill.root.innerHTML;
+      const data = {
+        ...formData,
+        kind: state.currentKind,
+        originalSlug: state.originalSlug,
+        slug: byId("slug").value.trim(),
+        tags: formData.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
+        published: byId("published").checked,
+        featured: byId("featured").checked,
+        contentHtml
+      };
+      if (state.currentKind === "project") data.year = Number(data.year);
+
+      const button = byId("save-entry");
+      button.disabled = true;
+      byId("save-label").textContent = "Saving…";
+      try {
+        const response = await fetch("/api/content", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Could not save");
+        state.originalSlug = result.entry.slug;
+        state.slugTouched = true;
+        populateMetadata(result.entry);
+        state.quill.setContents([]);
+        state.quill.clipboard.dangerouslyPasteHTML(result.entry.contentHtml, "silent");
+        byId("editor-title").textContent = result.entry.title;
+        await loadCollections();
+        setDirty(false);
+        showToast("Saved to " + result.file);
+      } catch (error) {
+        showToast(error.message, true);
+      } finally {
+        button.disabled = false;
+        byId("save-label").textContent = "Save";
+      }
+    }
+
+    function bindEvents() {
+      byId("tab-post").addEventListener("click", () => { state.activeKind = "post"; renderLibrary(); });
+      byId("tab-project").addEventListener("click", () => { state.activeKind = "project"; renderLibrary(); });
+      byId("search").addEventListener("input", renderLibrary);
+      byId("new-entry").addEventListener("click", () => openEditor(state.activeKind));
+      byId("back-library").addEventListener("click", showLibrary);
+      byId("toggle-metadata").addEventListener("click", () => setMetadataOpen(!state.metadataOpen));
+      byId("close-metadata").addEventListener("click", () => setMetadataOpen(false));
+      metadataOverlay.addEventListener("click", () => setMetadataOpen(false));
+      byId("save-entry").addEventListener("click", saveEntry);
+
+      metadataForm.addEventListener("input", (event) => {
+        setDirty(true);
+        if (event.target.id === "title") {
+          byId("editor-title").textContent = event.target.value || "Untitled " + labelForKind(state.currentKind).toLowerCase();
+          if (!state.originalSlug && !state.slugTouched) byId("slug").value = slugify(event.target.value);
+        }
+        if (event.target.id === "slug") state.slugTouched = true;
+      });
+
+      byId("choose-thumbnail").addEventListener("click", () => byId("thumbnail-file").click());
+      byId("thumbnail-file").addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        byId("choose-thumbnail").textContent = "Uploading…";
+        byId("choose-thumbnail").disabled = true;
+        try {
+          byId("image").value = await uploadImage(file, "thumbnail");
+          if (!byId("imageAlt").value) byId("imageAlt").value = byId("title").value || file.name;
+          updateThumbnailPreview();
+          setDirty(true);
+          showToast("Thumbnail uploaded. Save to keep it.");
+        } catch (error) {
+          showToast(error.message, true);
+        } finally {
+          event.target.value = "";
+          byId("choose-thumbnail").textContent = "Upload thumbnail";
+          byId("choose-thumbnail").disabled = false;
+        }
+      });
+
+      byId("content-image-file").addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        event.target.value = "";
+        if (!file) return;
+        state.pendingImage = file;
+        byId("image-filename").textContent = file.name;
+        byId("inline-alt").value = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ");
+        byId("image-modal").classList.remove("hidden");
+        byId("image-modal").classList.add("flex");
+        setTimeout(() => byId("inline-alt").focus(), 20);
+      });
+      byId("cancel-image").addEventListener("click", closeImageDialog);
+      byId("image-modal").addEventListener("click", (event) => {
+        if (event.target === byId("image-modal")) closeImageDialog();
+      });
+      byId("image-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!state.pendingImage) return;
+        const button = byId("confirm-image");
+        button.disabled = true;
+        button.textContent = "Uploading…";
+        try {
+          const source = await uploadImage(state.pendingImage, "content");
+          state.quill.insertEmbed(state.pendingImageIndex, "figure", {
+            src: source,
+            alt: byId("inline-alt").value.trim(),
+            caption: byId("inline-caption").value.trim()
+          }, "user");
+          state.quill.insertText(state.pendingImageIndex + 1, "\n", "user");
+          closeImageDialog();
+          showToast("Image inserted. Save to keep it.");
+        } catch (error) {
+          showToast(error.message, true);
+        } finally {
+          button.disabled = false;
+          button.textContent = "Upload & insert image";
+        }
+      });
+
+      window.addEventListener("beforeunload", (event) => {
+        if (!state.dirty) return;
+        event.preventDefault();
+        event.returnValue = "";
+      });
+      window.addEventListener("resize", () => {
+        if (window.innerWidth >= 1024 && !editorScreen.classList.contains("hidden")) setMetadataOpen(state.metadataOpen);
+      });
+    }
+
+    async function boot() {
+      if (window.__studioCdnFailed || !window.Quill) {
+        byId("cdn-error").classList.remove("hidden");
+        byId("cdn-error").classList.add("flex");
+        byId("cdn-error").classList.add("cdn-visible");
+        return;
+      }
+      initQuill();
+      bindEvents();
+      try {
+        await loadCollections();
+      } catch (error) {
+        showToast(error.message, true);
+      }
+    }
+
+    boot();
+  </script>
+</body>
+</html>

@@ -11,18 +11,5 @@
   "published": true,
   "sourceUrl": "",
   "demoUrl": "",
-  "content": [
-    {
-      "type": "paragraph",
-      "text": "This project explores observability for custom kernel modules without adding significant runtime overhead."
-    },
-    {
-      "type": "paragraph",
-      "text": "The monitor collects memory and locking signals, then presents them in a compact terminal interface suitable for development and debugging."
-    },
-    {
-      "type": "paragraph",
-      "text": "Its main design constraint is predictable cost: instrumentation should help diagnose a module without becoming the source of new timing problems."
-    }
-  ]
+  "contentHtml": "<p>This project explores observability for custom kernel modules without adding significant runtime overhead.</p><p>The monitor collects memory and locking signals, then presents them in a compact terminal interface suitable for development and debugging.</p><p>Its main design constraint is predictable cost: instrumentation should help diagnose a module without becoming the source of new timing problems.</p>"
 }

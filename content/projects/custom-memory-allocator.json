@@ -11,14 +11,5 @@
   "published": true,
   "sourceUrl": "",
   "demoUrl": "",
-  "content": [
-    {
-      "type": "paragraph",
-      "text": "This allocator was built to understand how general-purpose allocation works below the standard library API."
-    },
-    {
-      "type": "paragraph",
-      "text": "It manages free blocks, splits oversized allocations, and coalesces adjacent regions to limit fragmentation."
-    }
-  ]
+  "contentHtml": "<p>This allocator was built to understand how general-purpose allocation works below the standard library API.</p><p>It manages free blocks, splits oversized allocations, and coalesces adjacent regions to limit fragmentation.</p>"
 }

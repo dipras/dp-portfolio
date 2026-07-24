@@ -13,7 +13,9 @@ Run the local editor:
 bun run content:studio
 ```
 
-Then open `http://127.0.0.1:4173`. Saving an entry updates the appropriate JSON file. Review and commit that file as usual.
+Then open `http://127.0.0.1:4173`. The landing screen lets you search, create, and open articles or projects. Content is edited with a Quill WYSIWYG editor, while metadata lives in a collapsible drawer. Saving updates the appropriate JSON file; review and commit it as usual.
+
+The Studio loads Tailwind Browser and Quill from their pinned CDN versions, so the editor requires an internet connection. The published portfolio does not use those CDN assets.
 
 The editor can upload both thumbnail images and images inserted between content paragraphs. Uploaded assets are stored at:
 
@@ -22,7 +24,7 @@ The editor can upload both thumbnail images and images inserted between content 
 - `public/uploads/projects/<slug>/thumbnail/`
 - `public/uploads/projects/<slug>/content/`
 
-The generated JSON stores their public URL (for example `/uploads/posts/my-post/content/diagram.webp`). Commit both the JSON and uploaded files.
+The generated JSON stores the thumbnail URL and sanitized rich content in `contentHtml`. Inline images reference their public URL (for example `/uploads/posts/my-post/content/diagram.webp`). Commit both the JSON and uploaded files.
 
 `bun run build` validates the content, generates every `/blog/[slug]` and `/projects/[slug]` page, and writes the static site to `out/`. The GitHub Pages workflow deploys that directory; no production API or database is required.
 

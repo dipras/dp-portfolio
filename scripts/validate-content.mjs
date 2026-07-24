@@ -1,5 +1,10 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import {
+  contentHasMeaningfulValue,
+  extractImageSources,
+  sanitizeContentHtml,
+} from "./content-sanitizer.mjs";
 
 const root = process.cwd();
 const publicDirectory = path.join(root, "public");
@@ -7,12 +12,12 @@ const collections = [
   {
     name: "posts",
     directory: path.join(root, "content", "posts"),
-    required: ["slug", "title", "excerpt", "date", "readTime", "category", "tags", "image", "imageAlt", "content"],
+    required: ["slug", "title", "excerpt", "date", "readTime", "category", "tags", "image", "imageAlt", "contentHtml"],
   },
   {
     name: "projects",
     directory: path.join(root, "content", "projects"),
-    required: ["slug", "title", "excerpt", "year", "category", "tags", "imageAlt", "content"],
+    required: ["slug", "title", "excerpt", "year", "category", "tags", "imageAlt", "contentHtml"],
   },
 ];
 
@@ -86,27 +91,17 @@ for (const collection of collections) {
       hasErrors = true;
     }
     slugs.add(item.slug);
-    if (!Array.isArray(item.content) || item.content.length === 0) {
-      console.error(`${label}: content must be a non-empty array of blocks`);
+    if (typeof item.contentHtml !== "string" || !contentHasMeaningfulValue(item.contentHtml)) {
+      console.error(`${label}: contentHtml must contain text or an image`);
       hasErrors = true;
     } else {
-      for (const [index, block] of item.content.entries()) {
-        const blockLabel = `${label}: content[${index}]`;
-        if (block?.type === "paragraph" && typeof block.text === "string" && block.text.trim()) {
-          continue;
-        }
-        if (
-          block?.type === "image" &&
-          typeof block.src === "string" &&
-          block.src.trim() &&
-          typeof block.alt === "string" &&
-          block.alt.trim()
-        ) {
-          await validateLocalAsset(blockLabel, block.src);
-          continue;
-        }
-        console.error(`${blockLabel}: must be a valid paragraph or image block`);
+      const sanitized = sanitizeContentHtml(item.contentHtml);
+      if (sanitized !== item.contentHtml.trim()) {
+        console.error(`${label}: contentHtml contains unsupported or unsafe markup; save it through Content Studio`);
         hasErrors = true;
+      }
+      for (const source of extractImageSources(sanitized)) {
+        await validateLocalAsset(`${label}: content image`, source);
       }
     }
     if (!Array.isArray(item.tags)) {
