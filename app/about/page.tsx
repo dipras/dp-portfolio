@@ -84,6 +84,34 @@ export default function About() {
                             <h3 className="text-2xl font-bold text-text-main">Experience</h3>
                         </div>
                         <div className="relative pl-8 border-l border-slate-200 space-y-10">
+
+                            <div className="relative">
+                                <span
+                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
+                                <div className="flex flex-col gap-2 group">
+                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
+                                        Fullstack Developer</h4>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="font-semibold text-slate-700">Starasia Perkasa Teknologi</span>
+                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2026 - Present</span>
+                                    </div>
+                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
+                                        <p className="mb-2">
+                                            I currently work as a Fullstack Developer at Star Perkasa Teknologi, developing a modular enterprise Super App used to digitize and automate internal business operations.
+                                        </p>
+
+                                        <ul className="list-disc pl-4 space-y-1">
+                                            <li>Architect and develop enterprise modules using React.js & Express.js</li>
+                                            <li>Implement complex approval workflows, role-based access control (RBAC), and business process automation.</li>
+                                            <li>Develop financial and HR-related modules including Cash Advance, Business Travel, and Assessment Center.</li>
+                                            <li>Design reusable backend APIs and shared frontend components for a modular application ecosystem.</li>
+                                            <li>Collaborate in an Agile development environment, participating in requirement analysis, implementation, testing, and deployment.</li>
+                                            <li>Continuously improve application performance, maintainability, and scalability following modern software engineering best practices.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
@@ -92,10 +120,10 @@ export default function About() {
                                         Fullstack Developer</h4>
                                     <div className="flex items-center justify-between text-sm">
                                         <span className="font-semibold text-slate-700">Export Expert</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2024 - Present</span>
+                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2024 - 2026</span>
                                     </div>
                                     <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">I currently work as a Fullstack Developer at Export Expert Indonesia, an exclusive integration platform designed to empower Indonesians eager to explore the export industry.</p>
+                                        <p className="mb-2">I was work as a Fullstack Developer at Export Expert Indonesia, an exclusive integration platform designed to empower Indonesians eager to explore the export industry.</p>
                                         <ul className="list-disc pl-4 space-y-1">
                                             <li>Develop and maintain the main website of exportexpert.id using React.js.</li>
                                             <li>Build the backend server with NestJS, ensuring scalable architecture.</li>
