@@ -1,0 +1,18 @@
+{
+  "slug": "memory-management-in-c",
+  "title": "Memory Management in C: A Deep Dive",
+  "excerpt": "Understanding pointers, dynamic allocation, and how to avoid common pitfalls like memory leaks and segmentation faults.",
+  "date": "2024-11-14",
+  "readTime": "8 min read",
+  "category": "C",
+  "tags": ["Memory", "Systems"],
+  "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuC1CyYguc4bmIgMBxX3c9z59bInqd5CXVW1--rvwRz39q9-pN6cD6eqZ9WlJg1Yb1cWAALL1VA6KjN60eKv3a3xMze2tVk1Nc170DSknIgzg1laAPaXjLUNH9VZI4_5OGmNACSAiwjIjeymcS5GxGzgzyPR6JmxI6Wu8Qk8EVqQB5VEKRrwNDCSv4ORp5ng8si_erNK6Zwyb44DxQ_f2QTX5cEtLYrFwE6Wd_cV94VlUoBZxPwvgqRExiTbMNN8qsQof66ix0wNPH_1",
+  "imageAlt": "Computer screen showing code editor with syntax highlighting",
+  "featured": true,
+  "published": true,
+  "content": [
+    "C gives us direct control over memory. That control is powerful, but it also means the programmer is responsible for every allocation, ownership decision, and release.",
+    "A useful mental model is to treat every allocation as a resource with one clear owner. The owner may transfer that responsibility, but at any point in the program it should be obvious who must call free.",
+    "Tools such as AddressSanitizer and Valgrind make memory bugs easier to find. They work best as part of the normal development loop instead of as a final check before release."
+  ]
+}

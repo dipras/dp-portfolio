@@ -1,0 +1,18 @@
+{
+  "slug": "custom-memory-allocator",
+  "title": "Custom Memory Allocator",
+  "excerpt": "An implementation of malloc and free in C with block splitting and coalescing.",
+  "year": 2022,
+  "category": "Systems",
+  "tags": ["C", "Memory"],
+  "image": "",
+  "imageAlt": "Memory allocator visualization",
+  "featured": false,
+  "published": true,
+  "sourceUrl": "",
+  "demoUrl": "",
+  "content": [
+    "This allocator was built to understand how general-purpose allocation works below the standard library API.",
+    "It manages free blocks, splits oversized allocations, and coalesces adjacent regions to limit fragmentation."
+  ]
+}

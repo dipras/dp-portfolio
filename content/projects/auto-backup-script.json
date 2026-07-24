@@ -1,0 +1,18 @@
+{
+  "slug": "auto-backup-script",
+  "title": "Auto-Backup Script",
+  "excerpt": "A Bash workflow that compresses, encrypts, and uploads scheduled server backups.",
+  "year": 2022,
+  "category": "Systems",
+  "tags": ["Bash", "AWS CLI", "Linux"],
+  "image": "",
+  "imageAlt": "Automated backup terminal workflow",
+  "featured": false,
+  "published": true,
+  "sourceUrl": "",
+  "demoUrl": "",
+  "content": [
+    "The script creates repeatable server backups with compression, GPG encryption, and remote object storage.",
+    "Clear exit codes and logs make it suitable for cron jobs and external monitoring."
+  ]
+}

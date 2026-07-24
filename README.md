@@ -1,4 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a statically exported [Next.js](https://nextjs.org) portfolio.
+
+## Content
+
+Every post and project is versioned as an individual JSON file:
+
+- `content/posts/<slug>.json`
+- `content/projects/<slug>.json`
+
+Run the local editor:
+
+```bash
+bun run content:studio
+```
+
+Then open `http://127.0.0.1:4173`. Saving an entry updates the appropriate JSON file. Review and commit that file as usual.
+
+`bun run build` validates the content, generates every `/blog/[slug]` and `/projects/[slug]` page, and writes the static site to `out/`. The GitHub Pages workflow deploys that directory; no production API or database is required.
 
 ## Getting Started
 

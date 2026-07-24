@@ -1,0 +1,18 @@
+{
+  "slug": "vim-for-react-native",
+  "title": "My Vim Configuration for React Native Development",
+  "excerpt": "Setting up Neovim with LSP, Treesitter, and focused plugins for a fast React Native workflow.",
+  "date": "2024-10-12",
+  "readTime": "6 min read",
+  "category": "React Native",
+  "tags": ["Dev Environment", "Neovim"],
+  "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuD4f_qw8SjOaGri-K5f9eKka_T-rEJoGyRe_guwdjQS1NNxNXi7qpzxuMmKw-PhIetUTeXLH_GsE_EjPQckaVWDN4NaNjRPQpYexxPjvK4Zo4IKKFnenSD53wvDjdUcE4STRrNSCDZNZ2SKIc3ZOU00jDZXsem2_iR7b3ROGbZkNLD95OTtToHbeBEpesppZV1c_AFKO89_L3oi09KEp0KIZwIlW9kSSnXcplqy8TU_XJ6y-S6A_pI3BK5xs0xia4WfHkxYJxWTcCAj",
+  "imageAlt": "React logo abstract representation",
+  "featured": false,
+  "published": true,
+  "content": [
+    "My editor setup stays intentionally small: language intelligence, reliable syntax parsing, fuzzy navigation, and formatting on demand.",
+    "The TypeScript language server handles most React Native work. Treesitter improves structural highlighting, while Telescope keeps file and symbol navigation quick.",
+    "The best configuration is one you understand. Add plugins only when a repeated problem is clear, and keep each plugin configuration close to the reason it exists."
+  ]
+}
