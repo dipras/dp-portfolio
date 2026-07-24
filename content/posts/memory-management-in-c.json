@@ -11,8 +11,17 @@
   "featured": true,
   "published": true,
   "content": [
-    "C gives us direct control over memory. That control is powerful, but it also means the programmer is responsible for every allocation, ownership decision, and release.",
-    "A useful mental model is to treat every allocation as a resource with one clear owner. The owner may transfer that responsibility, but at any point in the program it should be obvious who must call free.",
-    "Tools such as AddressSanitizer and Valgrind make memory bugs easier to find. They work best as part of the normal development loop instead of as a final check before release."
+    {
+      "type": "paragraph",
+      "text": "C gives us direct control over memory. That control is powerful, but it also means the programmer is responsible for every allocation, ownership decision, and release."
+    },
+    {
+      "type": "paragraph",
+      "text": "A useful mental model is to treat every allocation as a resource with one clear owner. The owner may transfer that responsibility, but at any point in the program it should be obvious who must call free."
+    },
+    {
+      "type": "paragraph",
+      "text": "Tools such as AddressSanitizer and Valgrind make memory bugs easier to find. They work best as part of the normal development loop instead of as a final check before release."
+    }
   ]
 }

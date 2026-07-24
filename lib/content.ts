@@ -1,6 +1,18 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 
+export type ContentBlock =
+  | {
+      type: "paragraph";
+      text: string;
+    }
+  | {
+      type: "image";
+      src: string;
+      alt: string;
+      caption?: string;
+    };
+
 export type Post = {
   slug: string;
   title: string;
@@ -13,7 +25,7 @@ export type Post = {
   imageAlt: string;
   featured: boolean;
   published: boolean;
-  content: string[];
+  content: ContentBlock[];
 };
 
 export type Project = {
@@ -29,7 +41,7 @@ export type Project = {
   published: boolean;
   sourceUrl: string;
   demoUrl: string;
-  content: string[];
+  content: ContentBlock[];
 };
 
 function loadCollection<T>(directory: "posts" | "projects") {

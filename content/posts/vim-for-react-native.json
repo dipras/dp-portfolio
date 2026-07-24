@@ -11,8 +11,17 @@
   "featured": false,
   "published": true,
   "content": [
-    "My editor setup stays intentionally small: language intelligence, reliable syntax parsing, fuzzy navigation, and formatting on demand.",
-    "The TypeScript language server handles most React Native work. Treesitter improves structural highlighting, while Telescope keeps file and symbol navigation quick.",
-    "The best configuration is one you understand. Add plugins only when a repeated problem is clear, and keep each plugin configuration close to the reason it exists."
+    {
+      "type": "paragraph",
+      "text": "My editor setup stays intentionally small: language intelligence, reliable syntax parsing, fuzzy navigation, and formatting on demand."
+    },
+    {
+      "type": "paragraph",
+      "text": "The TypeScript language server handles most React Native work. Treesitter improves structural highlighting, while Telescope keeps file and symbol navigation quick."
+    },
+    {
+      "type": "paragraph",
+      "text": "The best configuration is one you understand. Add plugins only when a repeated problem is clear, and keep each plugin configuration close to the reason it exists."
+    }
   ]
 }

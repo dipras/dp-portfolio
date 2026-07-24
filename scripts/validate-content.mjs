@@ -1,7 +1,8 @@
-import { readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
+const publicDirectory = path.join(root, "public");
 const collections = [
   {
     name: "posts",
@@ -16,6 +17,25 @@ const collections = [
 ];
 
 let hasErrors = false;
+
+async function validateLocalAsset(label, value) {
+  if (typeof value !== "string" || !value.startsWith("/")) return;
+
+  const file = path.resolve(publicDirectory, value.replace(/^\/+/, ""));
+  const relative = path.relative(publicDirectory, file);
+  if (relative.startsWith("..") || path.isAbsolute(relative)) {
+    console.error(`${label}: asset path escapes the public directory`);
+    hasErrors = true;
+    return;
+  }
+
+  try {
+    await access(file);
+  } catch {
+    console.error(`${label}: referenced asset does not exist (${value})`);
+    hasErrors = true;
+  }
+}
 
 for (const collection of collections) {
   let filenames;
@@ -66,9 +86,28 @@ for (const collection of collections) {
       hasErrors = true;
     }
     slugs.add(item.slug);
-    if (!Array.isArray(item.content) || item.content.some((paragraph) => typeof paragraph !== "string")) {
-      console.error(`${label}: content must be an array of paragraphs`);
+    if (!Array.isArray(item.content) || item.content.length === 0) {
+      console.error(`${label}: content must be a non-empty array of blocks`);
       hasErrors = true;
+    } else {
+      for (const [index, block] of item.content.entries()) {
+        const blockLabel = `${label}: content[${index}]`;
+        if (block?.type === "paragraph" && typeof block.text === "string" && block.text.trim()) {
+          continue;
+        }
+        if (
+          block?.type === "image" &&
+          typeof block.src === "string" &&
+          block.src.trim() &&
+          typeof block.alt === "string" &&
+          block.alt.trim()
+        ) {
+          await validateLocalAsset(blockLabel, block.src);
+          continue;
+        }
+        console.error(`${blockLabel}: must be a valid paragraph or image block`);
+        hasErrors = true;
+      }
     }
     if (!Array.isArray(item.tags)) {
       console.error(`${label}: tags must be an array`);
@@ -82,6 +121,7 @@ for (const collection of collections) {
       console.error(`${label}: year must be an integer`);
       hasErrors = true;
     }
+    await validateLocalAsset(`${label}: thumbnail`, item.image);
   }
 }
 

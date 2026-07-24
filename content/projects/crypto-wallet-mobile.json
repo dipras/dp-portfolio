@@ -12,7 +12,13 @@
   "sourceUrl": "",
   "demoUrl": "",
   "content": [
-    "The application keeps key ownership on the device and uses biometric authentication to protect sensitive actions.",
-    "Live transaction updates are delivered over WebSockets without compromising the core non-custodial model."
+    {
+      "type": "paragraph",
+      "text": "The application keeps key ownership on the device and uses biometric authentication to protect sensitive actions."
+    },
+    {
+      "type": "paragraph",
+      "text": "Live transaction updates are delivered over WebSockets without compromising the core non-custodial model."
+    }
   ]
 }

@@ -15,6 +15,15 @@ bun run content:studio
 
 Then open `http://127.0.0.1:4173`. Saving an entry updates the appropriate JSON file. Review and commit that file as usual.
 
+The editor can upload both thumbnail images and images inserted between content paragraphs. Uploaded assets are stored at:
+
+- `public/uploads/posts/<slug>/thumbnail/`
+- `public/uploads/posts/<slug>/content/`
+- `public/uploads/projects/<slug>/thumbnail/`
+- `public/uploads/projects/<slug>/content/`
+
+The generated JSON stores their public URL (for example `/uploads/posts/my-post/content/diagram.webp`). Commit both the JSON and uploaded files.
+
 `bun run build` validates the content, generates every `/blog/[slug]` and `/projects/[slug]` page, and writes the static site to `out/`. The GitHub Pages workflow deploys that directory; no production API or database is required.
 
 ## Getting Started

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ContentBody from "@/components/ContentBody";
 import { getProject, getProjects } from "@/lib/content";
 
 export const dynamicParams = false;
@@ -74,11 +75,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="grid md:grid-cols-[1fr_15rem] gap-12 max-w-4xl mx-auto">
           <div className="text-lg text-slate-700 leading-8">
-            {project.content.map((paragraph, index) => (
-              <p key={index} className="mb-6">
-                {paragraph}
-              </p>
-            ))}
+            <ContentBody blocks={project.content} />
           </div>
           <aside>
             <h2 className="font-bold text-text-main mb-3">Built with</h2>

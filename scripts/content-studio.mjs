@@ -1,5 +1,5 @@
 import http from "node:http";
-import { readFile, readdir, rename, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, rename, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const host = "127.0.0.1";
@@ -9,6 +9,15 @@ const directories = {
   post: path.join(root, "content", "posts"),
   project: path.join(root, "content", "projects"),
 };
+const publicDirectory = path.join(root, "public");
+const maxUploadBytes = 10 * 1024 * 1024;
+const allowedImageTypes = new Map([
+  ["image/jpeg", ".jpg"],
+  ["image/png", ".png"],
+  ["image/webp", ".webp"],
+  ["image/gif", ".gif"],
+  ["image/avif", ".avif"],
+]);
 
 const page = String.raw`<!doctype html>
 <html lang="en">
@@ -26,7 +35,7 @@ const page = String.raw`<!doctype html>
     p { margin: 0; color: #64748b; }
     .layout { display: grid; grid-template-columns: 260px 1fr; gap: 24px; }
     .panel { background: white; border: 1px solid #e2e8f0; border-radius: 22px; padding: 20px; box-shadow: 0 12px 40px rgb(15 23 42 / .06); }
-    .toolbar, .actions { display: flex; gap: 10px; align-items: center; }
+    .toolbar, .actions, .upload { display: flex; gap: 10px; align-items: center; }
     button, select, input, textarea { font: inherit; }
     button { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; cursor: pointer; }
     button.primary { background: #0369a1; color: white; }
@@ -39,7 +48,15 @@ const page = String.raw`<!doctype html>
     label { display: grid; gap: 7px; color: #334155; font-size: 13px; font-weight: 700; }
     input, textarea, select { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 11px 13px; color: #0f172a; background: #fff; }
     input:focus, textarea:focus, select:focus { outline: 3px solid rgb(3 105 161 / .15); border-color: #0369a1; }
+    input[type="file"] { padding: 8px; }
     textarea { min-height: 240px; resize: vertical; line-height: 1.6; }
+    .field { display: grid; gap: 7px; }
+    .field > span { color: #334155; font-size: 13px; font-weight: 700; }
+    .upload { flex-wrap: wrap; padding: 12px; border-radius: 14px; background: #f8fafc; border: 1px dashed #cbd5e1; }
+    .upload input[type="file"] { flex: 1 1 240px; }
+    .upload input[type="text"] { flex: 1 1 180px; }
+    #thumbnail-preview { width: 100%; max-height: 260px; object-fit: cover; border-radius: 14px; border: 1px solid #e2e8f0; }
+    .hint { color: #64748b; font-size: 12px; font-weight: 500; }
     .checks { display: flex; gap: 20px; }
     .checks label { display: flex; align-items: center; gap: 8px; }
     .checks input { width: auto; }
@@ -69,13 +86,31 @@ const page = String.raw`<!doctype html>
           <label class="post-only">Publish date<input name="date" type="date"></label>
           <label class="post-only">Reading time<input name="readTime" placeholder="6 min read"></label>
           <label class="project-only" hidden>Year<input name="year" type="number"></label>
-          <label>Image URL<input name="image" placeholder="Optional for projects"></label>
+          <label>Thumbnail URL<input name="image" placeholder="Optional for projects"></label>
           <label>Image alt text<input name="imageAlt"></label>
           <label class="project-only" hidden>Source URL<input name="sourceUrl" type="url"></label>
           <label class="project-only" hidden>Demo URL<input name="demoUrl" type="url"></label>
         </div>
+        <div class="field">
+          <span>Upload thumbnail</span>
+          <div class="upload">
+            <input id="thumbnail-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+            <button class="secondary" id="upload-thumbnail" type="button">Upload thumbnail</button>
+          </div>
+          <img id="thumbnail-preview" alt="Thumbnail preview" hidden>
+          <span class="hint">JPEG, PNG, WebP, GIF, or AVIF. Maximum 10 MB.</span>
+        </div>
         <label>Excerpt<textarea name="excerpt" required style="min-height:100px"></textarea></label>
-        <label>Content paragraphs<textarea name="content" required placeholder="Separate paragraphs with one blank line."></textarea></label>
+        <label>Content blocks<textarea name="content" required placeholder="Separate paragraphs with one blank line. Uploaded images appear as ![alt](/uploads/...)."></textarea></label>
+        <div class="field">
+          <span>Insert image into content</span>
+          <div class="upload">
+            <input id="content-image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
+            <input id="content-image-alt" type="text" placeholder="Image description (alt text)">
+            <button class="secondary" id="upload-content-image" type="button">Upload & insert</button>
+          </div>
+          <span class="hint">The image block is inserted at the current cursor position.</span>
+        </div>
         <div class="checks">
           <label><input name="published" type="checkbox" checked> Published</label>
           <label><input name="featured" type="checkbox"> Featured</label>
@@ -90,10 +125,64 @@ const page = String.raw`<!doctype html>
   const form = document.querySelector("#form");
   const items = document.querySelector("#items");
   const status = document.querySelector("#status");
+  const thumbnailPreview = document.querySelector("#thumbnail-preview");
   let collections = { post: [], project: [] };
 
   function slugify(value) {
     return value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  function serializeContent(blocks) {
+    return (blocks || []).map((block) => {
+      if (block.type === "image") return "![" + block.alt + "](" + block.src + ")";
+      return block.text || "";
+    }).join("\n\n");
+  }
+
+  function parseContent(value) {
+    return value.split(/\n\s*\n/).map((part) => part.trim()).filter(Boolean).map((part) => {
+      const image = part.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+      return image
+        ? { type: "image", src: image[2], alt: image[1] || "Content image", caption: "" }
+        : { type: "paragraph", text: part };
+    });
+  }
+
+  function updateThumbnailPreview() {
+    const source = form.elements.image.value.trim();
+    thumbnailPreview.hidden = !source;
+    if (source) thumbnailPreview.src = source;
+  }
+
+  function insertContentImage(source, alt) {
+    const textarea = form.elements.content;
+    const token = "![" + alt + "](" + source + ")";
+    const before = textarea.value.slice(0, textarea.selectionStart).trimEnd();
+    const after = textarea.value.slice(textarea.selectionEnd).trimStart();
+    textarea.value = [before, token, after].filter(Boolean).join("\n\n");
+    textarea.focus();
+  }
+
+  async function uploadImage(fileInput, slot) {
+    const file = fileInput.files[0];
+    const slug = form.elements.slug.value;
+    if (!file) throw new Error("Choose an image first");
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Set a valid slug before uploading");
+    if (file.size > 10 * 1024 * 1024) throw new Error("Image must be 10 MB or smaller");
+
+    const query = new URLSearchParams({ kind: kind.value, slug, slot });
+    const response = await fetch("/api/upload?" + query, {
+      method: "POST",
+      headers: {
+        "content-type": file.type,
+        "x-file-name": encodeURIComponent(file.name)
+      },
+      body: file
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Upload failed");
+    fileInput.value = "";
+    return result.url;
   }
 
   function toggleFields() {
@@ -123,10 +212,11 @@ const page = String.raw`<!doctype html>
       if (!element.name) continue;
       if (element.type === "checkbox") element.checked = Boolean(entry[element.name]);
       else if (element.name === "tags") element.value = (entry.tags || []).join(", ");
-      else if (element.name === "content") element.value = (entry.content || []).join("\n\n");
+      else if (element.name === "content") element.value = serializeContent(entry.content);
       else element.value = entry[element.name] ?? "";
     }
     if (!Object.keys(entry).length) form.elements.published.checked = true;
+    updateThumbnailPreview();
     status.textContent = "";
   }
 
@@ -139,6 +229,31 @@ const page = String.raw`<!doctype html>
   form.elements.title.addEventListener("blur", () => {
     if (!form.elements.slug.value) form.elements.slug.value = slugify(form.elements.title.value);
   });
+  form.elements.image.addEventListener("input", updateThumbnailPreview);
+  document.querySelector("#upload-thumbnail").addEventListener("click", async () => {
+    try {
+      status.textContent = "Uploading thumbnail…";
+      form.elements.image.value = await uploadImage(document.querySelector("#thumbnail-file"), "thumbnail");
+      updateThumbnailPreview();
+      status.textContent = "Thumbnail uploaded. Save JSON to keep the reference.";
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  });
+  document.querySelector("#upload-content-image").addEventListener("click", async () => {
+    try {
+      status.textContent = "Uploading content image…";
+      const input = document.querySelector("#content-image-file");
+      const source = await uploadImage(input, "content");
+      const altInput = document.querySelector("#content-image-alt");
+      const alt = altInput.value.trim() || "Content image";
+      insertContentImage(source, alt);
+      altInput.value = "";
+      status.textContent = "Image uploaded and inserted. Save JSON to keep the block.";
+    } catch (error) {
+      status.textContent = error.message;
+    }
+  });
   kind.addEventListener("change", () => { toggleFields(); fill(); });
   document.querySelector("#new").addEventListener("click", () => fill());
   form.addEventListener("submit", async (event) => {
@@ -147,7 +262,7 @@ const page = String.raw`<!doctype html>
     const data = Object.fromEntries(new FormData(form));
     data.kind = kind.value;
     data.tags = data.tags.split(",").map((tag) => tag.trim()).filter(Boolean);
-    data.content = data.content.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
+    data.content = parseContent(data.content);
     data.published = form.elements.published.checked;
     data.featured = form.elements.featured.checked;
     if (kind.value === "project") data.year = Number(data.year);
@@ -173,6 +288,63 @@ function sendJson(response, status, value) {
   response.end(JSON.stringify(value));
 }
 
+function safeAssetPath(urlPath) {
+  const relative = decodeURIComponent(urlPath).replace(/^\/+/, "");
+  const file = path.resolve(publicDirectory, relative);
+  const insidePublic = path.relative(publicDirectory, file);
+  if (insidePublic.startsWith("..") || path.isAbsolute(insidePublic)) {
+    throw new Error("Invalid asset path");
+  }
+  return file;
+}
+
+async function saveUpload(request, searchParams) {
+  const kind = searchParams.get("kind");
+  const slug = searchParams.get("slug") ?? "";
+  const slot = searchParams.get("slot");
+  if (!(kind in directories)) throw new Error("Unknown content type");
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Invalid slug");
+  if (!["thumbnail", "content"].includes(slot)) throw new Error("Invalid upload slot");
+
+  const contentType = request.headers["content-type"]?.split(";")[0] ?? "";
+  const extension = allowedImageTypes.get(contentType);
+  if (!extension) throw new Error("Only JPEG, PNG, WebP, GIF, and AVIF images are allowed");
+
+  const encodedName = request.headers["x-file-name"];
+  if (!encodedName) throw new Error("Missing file name");
+  const originalName = decodeURIComponent(encodedName);
+  const stem =
+    path
+      .basename(originalName, path.extname(originalName))
+      .toLowerCase()
+      .replace(/[^a-z0-9_-]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "image";
+  const filename = `${stem}${extension}`;
+  const collection = kind === "post" ? "posts" : "projects";
+  const assetDirectory = path.join(publicDirectory, "uploads", collection, slug, slot);
+  const file = path.join(assetDirectory, filename);
+  const temporary = `${file}.tmp`;
+
+  const declaredSize = Number(request.headers["content-length"] || 0);
+  if (declaredSize > maxUploadBytes) throw new Error("Image must be 10 MB or smaller");
+
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of request) {
+    size += chunk.length;
+    if (size > maxUploadBytes) throw new Error("Image must be 10 MB or smaller");
+    chunks.push(chunk);
+  }
+  if (size === 0) throw new Error("Uploaded image is empty");
+
+  await mkdir(assetDirectory, { recursive: true });
+  await writeFile(temporary, Buffer.concat(chunks));
+  await rename(temporary, file);
+
+  const url = `/uploads/${collection}/${slug}/${slot}/${filename}`;
+  return { url, file: path.relative(root, file) };
+}
+
 async function readCollections() {
   const load = async (directory) => {
     const filenames = (await readdir(directory)).filter((filename) => filename.endsWith(".json"));
@@ -196,7 +368,12 @@ async function saveEntry(entry) {
     if (!entry[field]?.trim()) throw new Error(`${field} is required`);
   }
   if (!Array.isArray(entry.content) || entry.content.length === 0) {
-    throw new Error("At least one content paragraph is required");
+    throw new Error("At least one content block is required");
+  }
+  for (const block of entry.content) {
+    if (block?.type === "paragraph" && block.text?.trim()) continue;
+    if (block?.type === "image" && block.src?.trim() && block.alt?.trim()) continue;
+    throw new Error("Content blocks must be valid paragraphs or images");
   }
   entry.tags = Array.isArray(entry.tags) ? entry.tags : [];
   if (kind === "post" && (!entry.date || !entry.image)) {
@@ -247,16 +424,40 @@ async function saveEntry(entry) {
 
 const server = http.createServer(async (request, response) => {
   try {
-    if (request.method === "GET" && request.url === "/") {
+    const url = new URL(request.url ?? "/", `http://${host}:${port}`);
+
+    if (request.method === "GET" && url.pathname === "/") {
       response.writeHead(200, { "content-type": "text/html; charset=utf-8" });
       response.end(page);
       return;
     }
-    if (request.method === "GET" && request.url === "/api/content") {
+    if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
+      const file = safeAssetPath(url.pathname);
+      const extension = path.extname(file).toLowerCase();
+      const contentTypes = {
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".png": "image/png",
+        ".webp": "image/webp",
+        ".gif": "image/gif",
+        ".avif": "image/avif",
+      };
+      response.writeHead(200, {
+        "content-type": contentTypes[extension] ?? "application/octet-stream",
+        "cache-control": "no-cache",
+      });
+      response.end(await readFile(file));
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/content") {
       sendJson(response, 200, await readCollections());
       return;
     }
-    if (request.method === "POST" && request.url === "/api/content") {
+    if (request.method === "POST" && url.pathname === "/api/upload") {
+      sendJson(response, 200, await saveUpload(request, url.searchParams));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/content") {
       let body = "";
       for await (const chunk of request) {
         body += chunk;

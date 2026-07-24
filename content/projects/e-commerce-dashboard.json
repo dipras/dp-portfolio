@@ -12,7 +12,13 @@
   "sourceUrl": "",
   "demoUrl": "",
   "content": [
-    "The dashboard brings inventory, orders, and sales reporting into one operational view.",
-    "It uses a PHP backend and a Vue interface, with MySQL as the primary data store."
+    {
+      "type": "paragraph",
+      "text": "The dashboard brings inventory, orders, and sales reporting into one operational view."
+    },
+    {
+      "type": "paragraph",
+      "text": "It uses a PHP backend and a Vue interface, with MySQL as the primary data store."
+    }
   ]
 }

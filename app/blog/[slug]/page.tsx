@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ContentBody from "@/components/ContentBody";
 import { formatPostDate, getPost, getPosts } from "@/lib/content";
 
 export const dynamicParams = false;
@@ -46,11 +47,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <Image src={post.image} alt={post.imageAlt} fill priority className="object-cover" />
         </div>
         <div className="max-w-3xl mx-auto text-lg text-slate-700 leading-8">
-          {post.content.map((paragraph, index) => (
-            <p key={index} className="mb-6">
-              {paragraph}
-            </p>
-          ))}
+          <ContentBody blocks={post.content} />
         </div>
         <footer className="max-w-3xl mx-auto mt-12 pt-8 border-t border-slate-200 flex flex-wrap gap-2">
           {post.tags.map((tag) => (

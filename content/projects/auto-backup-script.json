@@ -12,7 +12,13 @@
   "sourceUrl": "",
   "demoUrl": "",
   "content": [
-    "The script creates repeatable server backups with compression, GPG encryption, and remote object storage.",
-    "Clear exit codes and logs make it suitable for cron jobs and external monitoring."
+    {
+      "type": "paragraph",
+      "text": "The script creates repeatable server backups with compression, GPG encryption, and remote object storage."
+    },
+    {
+      "type": "paragraph",
+      "text": "Clear exit codes and logs make it suitable for cron jobs and external monitoring."
+    }
   ]
 }
