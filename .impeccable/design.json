@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-24T14:09:24Z",
+  "title": "Design System: Dipras Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Signal Sky",
+        "canonical": "#0369a1",
+        "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#7dd3fc", "#e0f2fe"]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Signal Sky Hover",
+        "canonical": "#0284c7",
+        "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0369a1", "#0284c7", "#38bdf8", "#bae6fd", "#f0f9ff"]
+      },
+      "primary-soft": {
+        "role": "primary",
+        "displayName": "Signal Sky Soft",
+        "canonical": "#e0f2fe",
+        "tonalRamp": ["#0c4a6e", "#075985", "#0369a1", "#0284c7", "#38bdf8", "#7dd3fc", "#bae6fd", "#e0f2fe"]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f8fafc"]
+      },
+      "background-light": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": ["#0f172a", "#334155", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#ffffff"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#f1f5f9",
+        "tonalRamp": ["#0f172a", "#334155", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#f8fafc"]
+      },
+      "text-main": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0f172a",
+        "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Fog",
+        "canonical": "#64748b",
+        "tonalRamp": ["#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero and section headlines only (Space Grotesk)." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, bios, descriptions (Noto Sans)." },
+      "mono": { "displayName": "Mono", "purpose": "Literal code/terminal snippets and version strings only." }
+    },
+    "shadows": [
+      { "name": "ambient-card", "value": "0 4px 12px rgba(148, 163, 184, 0.5)", "purpose": "Resting depth for plain content cards (project, blog, form panels)." },
+      { "name": "signal-glow", "value": "0 10px 25px rgba(3, 105, 161, 0.25)", "purpose": "Elevated state for primary buttons and badges; deepens on hover." },
+      { "name": "deep-glow", "value": "0 20px 40px rgba(12, 74, 110, 0.2)", "purpose": "Hero imagery frames and large feature/CTA panels." }
+    ],
+    "motion": [
+      { "name": "fade-in-up", "value": "fade-in-up 0.8s ease-out forwards", "purpose": "Hero content entrance; staggered with delay-100/200/300 utility classes." },
+      { "name": "hover-lift", "value": "transform: translateY(-2px); transition: transform 0.2s", "purpose": "Buttons and cards lift slightly on hover alongside shadow bloom." },
+      { "name": "frame-rotate", "value": "rotate-3 at rest, hover:rotate-0, transition-transform duration-500", "purpose": "Signature playful tilt-to-straighten on framed portrait photos." }
+    ],
+    "breakpoints": [
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call-to-action button: pill shape, Signal Sky fill, glow shadow, hover lift.",
+      "html": "<button class=\"ds-btn-primary\">View Projects</button>",
+      "css": ".ds-btn-primary { background: #0369a1; color: #ffffff; font-weight: 700; font-size: 1rem; padding: 14px 32px; border-radius: 9999px; border: none; box-shadow: 0 10px 25px rgba(3, 105, 161, 0.25); transition: background 0.2s, box-shadow 0.2s, transform 0.2s; } .ds-btn-primary:hover { background: #0284c7; box-shadow: 0 14px 32px rgba(3, 105, 161, 0.4); transform: translateY(-2px); } .ds-btn-primary:focus-visible { outline: 2px solid #0284c7; outline-offset: 2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action button: neutral slate fill, no colored glow, same pill shape as primary.",
+      "html": "<button class=\"ds-btn-ghost\">Read Blog</button>",
+      "css": ".ds-btn-ghost { background: #f1f5f9; color: #334155; font-weight: 700; font-size: 1rem; padding: 14px 32px; border-radius: 9999px; border: none; transition: background 0.2s, transform 0.2s; } .ds-btn-ghost:hover { background: #e2e8f0; transform: translateY(-2px); } .ds-btn-ghost:focus-visible { outline: 2px solid #64748b; outline-offset: 2px; }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge-status",
+      "description": "Eyebrow status badge with animated live-signal dot (e.g. 'Available for hire').",
+      "html": "<div class=\"ds-badge-status\"><span class=\"ds-badge-dot-ping\"></span><span class=\"ds-badge-dot\"></span>Available for hire</div>",
+      "css": ".ds-badge-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 9999px; background: #e0f2fe; color: #0369a1; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; position: relative; } .ds-badge-dot-ping { position: absolute; left: 16px; width: 8px; height: 8px; border-radius: 9999px; background: #38bdf8; opacity: 0.75; animation: ds-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite; } .ds-badge-dot { position: relative; left: 8px; width: 8px; height: 8px; border-radius: 9999px; background: #0369a1; } @keyframes ds-ping { 75%, 100% { transform: scale(2); opacity: 0; } }"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip-tag",
+      "description": "Neutral tech/skill tag chip that highlights to Signal Sky on hover.",
+      "html": "<span class=\"ds-chip-tag\">React Native</span>",
+      "css": ".ds-chip-tag { display: inline-flex; align-items: center; padding: 6px 16px; border-radius: 9999px; background: #f1f5f9; color: #475569; font-weight: 600; font-size: 0.75rem; border: 1px solid transparent; transition: color 0.2s, border-color 0.2s; } .ds-chip-tag:hover { color: #0369a1; border-color: rgba(3, 105, 161, 0.3); }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card-content",
+      "description": "Standard project/blog card: white surface, hairline border, ambient shadow, hover lift.",
+      "html": "<div class=\"ds-card\"><h3 class=\"ds-card-title\">Card Title</h3><p class=\"ds-card-body\">Supporting description text goes here.</p></div>",
+      "css": ".ds-card { background: #ffffff; border: 1px solid #f1f5f9; border-radius: 1.5rem; padding: 24px; box-shadow: 0 4px 12px rgba(148, 163, 184, 0.5); transition: box-shadow 0.3s, transform 0.3s; } .ds-card:hover { box-shadow: 0 8px 24px rgba(148, 163, 184, 0.6); transform: translateY(-4px); } .ds-card-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem; color: #0f172a; margin-bottom: 8px; } .ds-card-body { font-size: 0.875rem; color: #64748b; line-height: 1.6; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "Form field: mist fill, pale border, Signal Sky focus ring.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"John Doe\" />",
+      "css": ".ds-input { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 12px 16px; color: #0f172a; font-size: 1rem; transition: border-color 0.2s, box-shadow 0.2s; } .ds-input::placeholder { color: #94a3b8; } .ds-input:focus { outline: none; border-color: #0ea5e9; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2); }"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "nav-primary",
+      "description": "Fixed glass-chrome navbar with pill-track nav links and active-state pill highlight.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-link ds-nav-link--active\">About</a><a class=\"ds-nav-link\">Projects</a><a class=\"ds-nav-link\">Blog</a><a class=\"ds-nav-link\">Contact</a></nav>",
+      "css": ".ds-nav { display: inline-flex; align-items: center; gap: 4px; background: rgba(241, 245, 249, 0.5); border-radius: 9999px; padding: 4px; } .ds-nav-link { padding: 6px 20px; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; color: #64748b; text-decoration: none; transition: color 0.2s, background 0.2s; } .ds-nav-link:hover { color: #0369a1; } .ds-nav-link--active { background: #ffffff; color: #0369a1; font-weight: 700; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); }"
+    },
+    {
+      "name": "Timeline Item",
+      "kind": "custom",
+      "refersTo": "timeline-item",
+      "description": "Signature vertical dotted-line experience timeline entry with a circular marker.",
+      "html": "<div class=\"ds-timeline\"><div class=\"ds-timeline-item ds-timeline-item--active\"><h4 class=\"ds-timeline-title\">Fullstack Developer</h4><p class=\"ds-timeline-meta\">Export Expert &middot; 2024 - Present</p></div></div>",
+      "css": ".ds-timeline { border-left: 1px solid #e2e8f0; padding-left: 32px; position: relative; } .ds-timeline-item { position: relative; padding-bottom: 24px; } .ds-timeline-item::before { content: ''; position: absolute; left: -37px; top: 4px; width: 16px; height: 16px; border-radius: 9999px; border: 2px solid #ffffff; background: #cbd5e1; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } .ds-timeline-item--active::before { background: #0369a1; } .ds-timeline-title { font-weight: 700; color: #0f172a; font-size: 1.125rem; } .ds-timeline-meta { color: #64748b; font-size: 0.875rem; margin-top: 4px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Terminal Window",
+    "overview": "This system reads as a developer's terminal wrapped in a soft, confident SaaS shell: traffic-light window dots, monospace status snippets (\"$ ./init_portfolio.sh\", \"ONLINE & CODING\"), and a terminal glyph in the navbar mark sit inside otherwise gentle, rounded, glassmorphic surfaces. The tension is deliberate — it mirrors the site's own positioning of a developer who ships polished full-stack products but is genuinely at home closer to the metal. Nothing here is harsh or brutalist; the \"terminal\" is a recurring accent motif, not the dominant texture.\n\nThe palette is a single confident sky-blue running through pill badges, links, primary buttons, and colored shadow blooms, set against near-white cards and slate-toned neutrals. Corners are generously rounded almost everywhere (pills for badges/nav/buttons, 2xl–4xl for cards and framed images), borders are hairline and pale, and depth comes from soft, sometimes color-tinted shadows rather than hard edges or drop lines.",
+    "keyCharacteristics": [
+      "Single-accent sky-blue system (#0369a1 family) carried through badges, links, buttons, focus rings, and shadow tint.",
+      "Terminal/code-editor motifs (window dot chrome, monospace snippets, terminal glyph mark) as a recurring but sparing accent, not a base texture.",
+      "Pill-shaped interactive elements (nav, buttons, status badges) contrasted against large-radius rectangular containers (cards, framed photos).",
+      "Soft, often color-tinted shadow blooms (shadow-primary/20, shadow-sky-900/20) instead of neutral gray elevation.",
+      "Subtle glassmorphism on chrome surfaces (translucent, blurred navbar and overlay panels).",
+      "Space Grotesk for display/headings, Noto Sans for body — a geometric-technical display face over a warm, highly legible body face."
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Signal Sky is the only hue in the system. Status colors (red/yellow/green traffic-light dots, green \"online\" pulse) are the sole exception, used only inside literal terminal/status-chrome motifs, never as general UI color.", "section": "colors" },
+      { "name": "The Glow Rule", "body": "Elevation on primary interactive elements tints toward Signal Sky rather than staying neutral gray (shadow-primary/20, shadow-primary/25, shadow-sky-900/20) — the accent color is reinforced even in depth cues, not just in fills and text.", "section": "colors" },
+      { "name": "The Mono-Is-Literal Rule", "body": "Monospace type only appears where it represents literal code, terminal output, or a version string — never as a decorative label font.", "section": "typography" },
+      { "name": "The Glow-Not-Gray Rule", "body": "Where a shadow supports a primary-colored element, tint the shadow toward Signal Sky rather than defaulting to neutral gray.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Signal Sky as the only chroma accent; introduce a second hue only for a confirmed new product need, not for visual variety.",
+      "Do use pill shape (rounded-full) for anything interactive or status-like (buttons, nav, badges, chips) and reserve large-but-finite radii (2xl–4xl) for containers and imagery.",
+      "Do tint shadows toward Signal Sky on primary-colored elements (Glow-Not-Gray Rule) rather than defaulting to neutral gray shadows.",
+      "Do keep monospace type literal (real code/terminal/version strings only)."
+    ],
+    "donts": [
+      "Don't introduce hard, sharp-cornered components; the system has no straight-corner precedent outside literal code blocks.",
+      "Don't use flat, un-elevated cards at rest — even resting cards carry at least an ambient shadow in this system.",
+      "Don't add a second saturated accent hue alongside Signal Sky without a confirmed product reason; the One Accent Rule is load-bearing for the \"single confident signal\" feel.",
+      "Don't use monospace or terminal chrome (window dots, $ prompts) as decoration on components unrelated to code/systems content — it's a meaningful accent tied to the \"low-level\" positioning, not a generic texture."
+    ]
+  }
+}
