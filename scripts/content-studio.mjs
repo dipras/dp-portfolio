@@ -26,8 +26,9 @@ const allowedImageTypes = new Set([
 ]);
 
 function sendJson(response, status, value) {
+  const body = JSON.stringify(value);
   response.writeHead(status, { "content-type": "application/json; charset=utf-8" });
-  response.end(JSON.stringify(value));
+  response.end(body);
 }
 
 function safeAssetPath(urlPath) {
@@ -62,16 +63,7 @@ async function saveUpload(request, searchParams) {
     throw new Error("Only JPEG, PNG, WebP, GIF, and AVIF images are allowed");
   }
 
-  const encodedName = request.headers["x-file-name"];
-  if (!encodedName) throw new Error("Missing file name");
-  const originalName = decodeURIComponent(encodedName);
-  const stem =
-    path
-      .basename(originalName, path.extname(originalName))
-      .toLowerCase()
-      .replace(/[^a-z0-9_-]+/g, "-")
-      .replace(/^-+|-+$/g, "") || "image";
-  const filename = `${stem}.webp`;
+  const filename = `${Date.now()}.webp`;
   const collection = kind === "post" ? "posts" : "projects";
   const assetDirectory = path.join(publicDirectory, "uploads", collection, slug, slot);
   const file = path.join(assetDirectory, filename);
@@ -90,21 +82,30 @@ async function saveUpload(request, searchParams) {
   if (size === 0) throw new Error("Uploaded image is empty");
 
   const original = Buffer.concat(chunks);
-  let converted;
+  let uploaded;
   try {
-    converted = await sharp(original, {
-      animated: true,
-      limitInputPixels: 40_000_000,
-    })
-      .rotate()
-      .webp({ quality: 84, effort: 4 })
-      .toBuffer();
+    if (contentType === "image/webp") {
+      const metadata = await sharp(original, {
+        animated: true,
+        limitInputPixels: 40_000_000,
+      }).metadata();
+      if (metadata.format !== "webp") throw new Error("Invalid WebP image");
+      uploaded = original;
+    } else {
+      uploaded = await sharp(original, {
+        animated: true,
+        limitInputPixels: 40_000_000,
+      })
+        .rotate()
+        .webp({ quality: 84, effort: 4 })
+        .toBuffer();
+    }
   } catch {
     throw new Error("The uploaded file could not be decoded as an image");
   }
 
   await mkdir(assetDirectory, { recursive: true });
-  await writeFile(temporary, converted);
+  await writeFile(temporary, uploaded);
   await rename(temporary, file);
 
   const url = `/uploads/${collection}/${slug}/${slot}/${filename}`;
@@ -112,7 +113,7 @@ async function saveUpload(request, searchParams) {
     url,
     file: path.relative(root, file),
     originalBytes: original.length,
-    webpBytes: converted.length,
+    uploadedBytes: uploaded.length,
   };
 }
 
@@ -230,6 +231,7 @@ const server = http.createServer(async (request, response) => {
     if (request.method === "GET" && url.pathname.startsWith("/uploads/")) {
       const file = safeAssetPath(url.pathname);
       const extension = path.extname(file).toLowerCase();
+      const content = await readFile(file);
       const contentTypes = {
         ".jpg": "image/jpeg",
         ".jpeg": "image/jpeg",
@@ -242,7 +244,7 @@ const server = http.createServer(async (request, response) => {
         "content-type": contentTypes[extension] ?? "application/octet-stream",
         "cache-control": "no-cache",
       });
-      response.end(await readFile(file));
+      response.end(content);
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/content") {
@@ -265,7 +267,21 @@ const server = http.createServer(async (request, response) => {
     }
     sendJson(response, 404, { error: "Not found" });
   } catch (error) {
-    sendJson(response, 400, { error: error instanceof Error ? error.message : "Unknown error" });
+    if (response.headersSent || response.writableEnded) {
+      console.error("Content Studio request failed after the response started:", error);
+      if (!response.writableEnded) response.end();
+      return;
+    }
+
+    const missingAsset = error?.code === "ENOENT";
+    const status = missingAsset ? 404 : 400;
+    sendJson(response, status, {
+      error: missingAsset
+        ? "Asset not found"
+        : error instanceof Error
+          ? error.message
+          : "Unknown error",
+    });
   }
 });
 

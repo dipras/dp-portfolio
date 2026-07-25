@@ -291,7 +291,7 @@
           <div class="rounded-2xl border border-slate-200 bg-slate-50 p-3">
             <img id="thumbnail-preview" class="mb-3 hidden aspect-video w-full rounded-xl object-cover" alt="Thumbnail preview">
             <div id="thumbnail-placeholder" class="mb-3 flex aspect-video items-center justify-center rounded-xl bg-slate-200 text-sm font-bold text-slate-500">No thumbnail</div>
-            <button id="choose-thumbnail" type="button" class="soft-button w-full">Upload & convert to WebP</button>
+            <button id="choose-thumbnail" type="button" class="soft-button w-full">Upload thumbnail</button>
             <input id="thumbnail-file" class="hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif">
             <input id="image" name="image" type="hidden">
           </div>
@@ -568,9 +568,8 @@
     }
 
     function uploadSummary(result) {
-      const before = Math.max(1, Math.round(result.originalBytes / 1024));
-      const after = Math.max(1, Math.round(result.webpBytes / 1024));
-      return "Converted to WebP · " + before + " KB → " + after + " KB";
+      const size = Math.max(1, Math.round(result.uploadedBytes / 1024));
+      return "Uploaded · " + size + " KB";
     }
 
     function openImageDialog() {
@@ -720,7 +719,7 @@
           showToast(error.message, true);
         } finally {
           event.target.value = "";
-          byId("choose-thumbnail").textContent = "Upload & convert to WebP";
+          byId("choose-thumbnail").textContent = "Upload thumbnail";
           byId("choose-thumbnail").disabled = false;
         }
       });
