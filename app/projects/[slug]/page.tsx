@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import ContentBody from "@/components/ContentBody";
 import { getProject, getProjects } from "@/lib/content";
+import { getProjectReadmeHtml } from "@/lib/project-readme";
 
 export const dynamicParams = false;
 
@@ -48,6 +49,7 @@ export async function generateMetadata({
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const project = getProject((await params).slug);
   if (!project) notFound();
+  const readmeHtml = await getProjectReadmeHtml(project);
 
   const hasDistinctDemo = Boolean(
     project.demoUrl && project.demoUrl !== project.sourceUrl,
@@ -126,7 +128,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-[1fr_15rem] md:gap-12">
           <div className="text-base leading-7 text-slate-700 md:text-lg md:leading-8">
-            <ContentBody html={project.contentHtml} />
+            <ContentBody html={readmeHtml} />
           </div>
           <aside>
             <h2 className="font-bold text-text-main mb-3">Built with</h2>

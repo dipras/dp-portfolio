@@ -146,8 +146,10 @@ async function saveEntry(entry) {
   }
 
   for (const field of ["title", "excerpt", "category"]) requireText(entry, field);
-  const contentHtml = sanitizeContentHtml(entry.contentHtml);
-  if (!contentHasMeaningfulValue(contentHtml)) throw new Error("Article content is required");
+  const contentHtml = kind === "post" ? sanitizeContentHtml(entry.contentHtml) : "";
+  if (kind === "post" && !contentHasMeaningfulValue(contentHtml)) {
+    throw new Error("Article content is required");
+  }
   entry.tags = Array.isArray(entry.tags)
     ? entry.tags.map((tag) => String(tag).trim()).filter(Boolean)
     : [];
@@ -157,6 +159,21 @@ async function saveEntry(entry) {
   }
   if (kind === "project" && !Number.isInteger(entry.year)) {
     throw new Error("Project year must be an integer");
+  }
+  if (kind === "project") {
+    requireText(entry, "sourceUrl");
+    try {
+      const source = new URL(entry.sourceUrl);
+      const segments = source.pathname.split("/").filter(Boolean);
+      if (
+        !["github.com", "www.github.com"].includes(source.hostname.toLowerCase()) ||
+        segments.length !== 2
+      ) {
+        throw new Error();
+      }
+    } catch {
+      throw new Error("sourceUrl must point to a GitHub repository root");
+    }
   }
 
   const clean =
@@ -188,7 +205,6 @@ async function saveEntry(entry) {
           published: Boolean(entry.published),
           sourceUrl: entry.sourceUrl?.trim() || "",
           demoUrl: entry.demoUrl?.trim() || "",
-          contentHtml,
         };
 
   const file = path.join(directories[kind], `${clean.slug}.json`);

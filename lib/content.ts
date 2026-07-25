@@ -29,7 +29,6 @@ export type Project = {
   published: boolean;
   sourceUrl: string;
   demoUrl: string;
-  contentHtml: string;
 };
 
 function loadCollection<T>(directory: "posts" | "projects") {

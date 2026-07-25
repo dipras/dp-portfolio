@@ -2,7 +2,7 @@ This is a statically exported [Next.js](https://nextjs.org) portfolio.
 
 ## Content
 
-Every post and project is versioned as an individual JSON file:
+Every post and project keeps its metadata in an individual JSON file:
 
 - `content/posts/<slug>.json`
 - `content/projects/<slug>.json`
@@ -13,20 +13,19 @@ Run the local editor:
 bun run content:studio
 ```
 
-Then open `http://127.0.0.1:4173`. The landing screen lets you search, create, and open articles or projects. Content is edited with a Quill WYSIWYG editor, while metadata lives in a collapsible drawer. Saving updates the appropriate JSON file; review and commit it as usual.
+Then open `http://127.0.0.1:4173`. The landing screen lets you search, create, and open articles or projects. Blog content is edited with a Quill WYSIWYG editor, while metadata lives in a collapsible drawer. Project bodies come from the `README.md` in their GitHub `sourceUrl`. Saving updates the appropriate JSON file; review and commit it as usual.
 
 The Studio loads Tailwind Browser and Quill from their pinned CDN versions, so the editor requires an internet connection. The published portfolio does not use those CDN assets.
 
-The editor can upload both thumbnail images and images inserted between content paragraphs. JPEG, PNG, WebP, GIF, and AVIF uploads are decoded and written as optimized WebP files before being referenced by JSON. Uploaded assets are stored at:
+The editor can upload thumbnails and images inserted into blog posts. JPEG, PNG, WebP, GIF, and AVIF uploads are decoded and written as optimized WebP files before being referenced by JSON. Uploaded assets are stored at:
 
 - `public/uploads/posts/<slug>/thumbnail/`
 - `public/uploads/posts/<slug>/content/`
 - `public/uploads/projects/<slug>/thumbnail/`
-- `public/uploads/projects/<slug>/content/`
 
-The generated JSON stores the thumbnail URL and sanitized rich content in `contentHtml`. Inline images reference their public URL (for example `/uploads/posts/my-post/content/diagram.webp`). Commit both the JSON and uploaded files.
+Post JSON stores sanitized rich content in `contentHtml`. Project JSON stores a GitHub repository root in `sourceUrl`; during the build its root `README.md` is fetched through `raw.githubusercontent.com`, relative links and images are resolved against the repository, and the Markdown is converted to sanitized HTML. Inline post images reference their public URL (for example `/uploads/posts/my-post/content/diagram.webp`). Commit local JSON and uploaded files as usual.
 
-`bun run build` validates the content, generates every `/blog/[slug]` and `/projects/[slug]` page, and writes the static site to `out/`. The GitHub Pages workflow deploys that directory; no production API or database is required.
+`bun run build` validates the content, fetches every published project README, generates every `/blog/[slug]` and `/projects/[slug]` page, and writes the static site to `out/`. A build therefore requires network access and fails clearly if a README cannot be fetched. The GitHub Pages workflow deploys the generated directory; visitors do not call GitHub at runtime, and no production API or database is required.
 
 ## Getting Started
 

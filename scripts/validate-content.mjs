@@ -17,7 +17,7 @@ const collections = [
   {
     name: "projects",
     directory: path.join(root, "content", "projects"),
-    required: ["slug", "title", "excerpt", "year", "category", "tags", "imageAlt", "contentHtml"],
+    required: ["slug", "title", "excerpt", "year", "category", "tags", "imageAlt", "sourceUrl"],
   },
 ];
 
@@ -91,17 +91,19 @@ for (const collection of collections) {
       hasErrors = true;
     }
     slugs.add(item.slug);
-    if (typeof item.contentHtml !== "string" || !contentHasMeaningfulValue(item.contentHtml)) {
-      console.error(`${label}: contentHtml must contain text or an image`);
-      hasErrors = true;
-    } else {
-      const sanitized = sanitizeContentHtml(item.contentHtml);
-      if (sanitized !== item.contentHtml.trim()) {
-        console.error(`${label}: contentHtml contains unsupported or unsafe markup; save it through Content Studio`);
+    if (collection.name === "posts") {
+      if (typeof item.contentHtml !== "string" || !contentHasMeaningfulValue(item.contentHtml)) {
+        console.error(`${label}: contentHtml must contain text or an image`);
         hasErrors = true;
-      }
-      for (const source of extractImageSources(sanitized)) {
-        await validateLocalAsset(`${label}: content image`, source);
+      } else {
+        const sanitized = sanitizeContentHtml(item.contentHtml);
+        if (sanitized !== item.contentHtml.trim()) {
+          console.error(`${label}: contentHtml contains unsupported or unsafe markup; save it through Content Studio`);
+          hasErrors = true;
+        }
+        for (const source of extractImageSources(sanitized)) {
+          await validateLocalAsset(`${label}: content image`, source);
+        }
       }
     }
     if (!Array.isArray(item.tags)) {
@@ -115,6 +117,21 @@ for (const collection of collections) {
     if (collection.name === "projects" && !Number.isInteger(item.year)) {
       console.error(`${label}: year must be an integer`);
       hasErrors = true;
+    }
+    if (collection.name === "projects") {
+      try {
+        const source = new URL(item.sourceUrl);
+        const segments = source.pathname.split("/").filter(Boolean);
+        if (
+          !["github.com", "www.github.com"].includes(source.hostname.toLowerCase()) ||
+          segments.length !== 2
+        ) {
+          throw new Error();
+        }
+      } catch {
+        console.error(`${label}: sourceUrl must point to a GitHub repository root`);
+        hasErrors = true;
+      }
     }
     await validateLocalAsset(`${label}: thumbnail`, item.image);
   }

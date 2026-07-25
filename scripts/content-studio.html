@@ -191,7 +191,7 @@
     <div id="metadata-overlay" class="fixed inset-0 z-40 hidden bg-slate-950/30 backdrop-blur-sm lg:hidden"></div>
     <main id="document-pane" class="h-[calc(100vh-65px)] overflow-y-auto bg-white transition-[padding] duration-300">
       <div class="min-h-full w-full">
-        <div class="min-h-full w-full bg-white">
+        <div id="content-editor-shell" class="min-h-full w-full bg-white">
           <div id="editor-toolbar">
             <span class="ql-formats">
               <select class="ql-header">
@@ -223,6 +223,16 @@
             </span>
           </div>
           <div id="editor"></div>
+        </div>
+        <div id="project-readme-notice" class="hidden min-h-full items-center justify-center px-6 py-16">
+          <div class="max-w-xl rounded-3xl border border-sky-100 bg-sky-50 p-8 text-center">
+            <div class="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-white text-2xl shadow-sm">↗</div>
+            <h2 class="text-xl font-bold text-slate-950">Content comes from GitHub</h2>
+            <p class="mt-3 leading-7 text-slate-600">
+              The repository README is fetched, converted to safe HTML, and embedded when the portfolio is built.
+              Edit the project description in its GitHub repository.
+            </p>
+          </div>
         </div>
       </div>
     </main>
@@ -297,7 +307,7 @@
             </div>
             <div>
               <label class="field-label" for="sourceUrl">Source URL</label>
-              <input id="sourceUrl" name="sourceUrl" class="field-input" type="url">
+              <input id="sourceUrl" name="sourceUrl" class="field-input" type="url" placeholder="https://github.com/owner/repository">
             </div>
           </div>
 
@@ -471,7 +481,7 @@
         : {
             title: "", slug: "", excerpt: "", year: now.getFullYear(),
             category: "", tags: [], image: "", imageAlt: "", featured: false,
-            published: false, sourceUrl: "", demoUrl: "", contentHtml: "<p><br></p>"
+            published: false, sourceUrl: "", demoUrl: ""
           };
     }
 
@@ -487,6 +497,10 @@
       document.querySelectorAll(".project-only").forEach((node) => node.classList.toggle("hidden", kind !== "project"));
       byId("date").required = kind === "post";
       byId("year").required = kind === "project";
+      byId("sourceUrl").required = kind === "project";
+      byId("content-editor-shell").classList.toggle("hidden", kind === "project");
+      byId("project-readme-notice").classList.toggle("hidden", kind !== "project");
+      byId("project-readme-notice").classList.toggle("flex", kind === "project");
     }
 
     function populateMetadata(entry) {
@@ -512,7 +526,9 @@
       configureMetadata(kind);
       populateMetadata(entry);
       state.quill.setContents([]);
-      state.quill.clipboard.dangerouslyPasteHTML(entry.contentHtml || "<p><br></p>", "silent");
+      if (kind === "post") {
+        state.quill.clipboard.dangerouslyPasteHTML(entry.contentHtml || "<p><br></p>", "silent");
+      }
       state.quill.setSelection(0, 0, "silent");
       state.quill.root.scrollTop = 0;
       byId("editor-eyebrow").textContent = labelForKind(kind) + " editor";
@@ -625,7 +641,6 @@
         return;
       }
       const formData = Object.fromEntries(new FormData(metadataForm));
-      const contentHtml = state.quill.root.innerHTML;
       const data = {
         ...formData,
         kind: state.currentKind,
@@ -633,9 +648,9 @@
         slug: byId("slug").value.trim(),
         tags: formData.tags.split(",").map((tag) => tag.trim()).filter(Boolean),
         published: byId("published").checked,
-        featured: byId("featured").checked,
-        contentHtml
+        featured: byId("featured").checked
       };
+      if (state.currentKind === "post") data.contentHtml = state.quill.root.innerHTML;
       if (state.currentKind === "project") data.year = Number(data.year);
 
       const button = byId("save-entry");
@@ -653,7 +668,9 @@
         state.slugTouched = true;
         populateMetadata(result.entry);
         state.quill.setContents([]);
-        state.quill.clipboard.dangerouslyPasteHTML(result.entry.contentHtml, "silent");
+        if (state.currentKind === "post") {
+          state.quill.clipboard.dangerouslyPasteHTML(result.entry.contentHtml, "silent");
+        }
         byId("editor-title").textContent = result.entry.title;
         await loadCollections();
         setDirty(false);
