@@ -126,12 +126,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
 
-        <div className="mx-auto grid max-w-4xl gap-10 md:grid-cols-[1fr_15rem] md:gap-12">
-          <div className="text-base leading-7 text-slate-700 md:text-lg md:leading-8">
-            <ContentBody html={readmeHtml} />
-          </div>
-          <aside>
-            <h2 className="font-bold text-text-main mb-3">Built with</h2>
+        <div className="mx-auto max-w-4xl">
+          <div className="mb-8 flex flex-col gap-3 border-b border-slate-200 pb-8 sm:flex-row sm:items-center sm:gap-5">
+            <h2 className="shrink-0 font-bold text-text-main">Built with</h2>
             <div className="flex flex-wrap gap-2">
               {project.tags.map((tag) => (
                 <span key={tag} className="px-3 py-1.5 rounded-full bg-primary-soft text-primary text-sm font-bold">
@@ -139,7 +136,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 </span>
               ))}
             </div>
-          </aside>
+          </div>
+          <div className="text-base leading-7 text-slate-700 md:text-lg md:leading-8">
+            <ContentBody html={readmeHtml} />
+          </div>
         </div>
       </article>
     </main>
