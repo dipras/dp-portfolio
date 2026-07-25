@@ -14,6 +14,42 @@ const notoSans = Noto_Sans({
   subsets: ["latin"],
 });
 
+const materialSymbolsUrl = new URL("https://fonts.googleapis.com/css2");
+materialSymbolsUrl.searchParams.set("family", "Material Symbols Outlined");
+materialSymbolsUrl.searchParams.set(
+  "icon_names",
+  [
+    "arrow_back",
+    "arrow_forward",
+    "arrow_outward",
+    "arrow_right_alt",
+    "check_circle",
+    "close",
+    "code",
+    "commit",
+    "data_object",
+    "dns",
+    "download",
+    "edit_note",
+    "javascript",
+    "layers",
+    "mail",
+    "memory",
+    "menu",
+    "new_releases",
+    "php",
+    "public",
+    "school",
+    "send",
+    "smartphone",
+    "tag",
+    "terminal",
+    "work",
+    "work_history",
+  ].join(","),
+);
+materialSymbolsUrl.searchParams.set("display", "block");
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://dipras.my.id"),
   title: {
@@ -38,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        <link href={materialSymbolsUrl.toString()} rel="stylesheet" />
       </head>
       <body className={`${spaceGrotesk.variable} ${notoSans.variable} bg-background-light text-text-main font-display overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary`}>
         <Navbar />

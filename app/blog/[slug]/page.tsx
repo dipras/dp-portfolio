@@ -70,7 +70,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <p className="text-xl text-text-muted leading-relaxed">{post.excerpt}</p>
         </header>
         <div className="relative aspect-video rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 mb-12">
-          <Image src={post.image} alt={post.imageAlt} fill priority className="object-cover" />
+          <Image
+            src={post.image}
+            alt={post.imageAlt}
+            fill
+            priority
+            fetchPriority="high"
+            className="object-cover"
+          />
         </div>
         <div className="max-w-3xl mx-auto text-lg text-slate-700 leading-8">
           <ContentBody html={post.contentHtml} />

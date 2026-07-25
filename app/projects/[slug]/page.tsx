@@ -89,7 +89,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         {project.image ? (
           <div className="relative aspect-video rounded-3xl overflow-hidden shadow-xl shadow-slate-200/60 mb-12">
-            <Image src={project.image} alt={project.imageAlt} fill priority className="object-cover" />
+            <Image
+              src={project.image}
+              alt={project.imageAlt}
+              fill
+              priority
+              fetchPriority="high"
+              className="object-cover"
+            />
           </div>
         ) : (
           <div className="relative aspect-video rounded-3xl bg-slate-900 overflow-hidden flex items-center justify-center mb-12">
