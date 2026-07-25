@@ -17,7 +17,33 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const post = getPost((await params).slug);
-  return post ? { title: post.title, description: post.excerpt } : {};
+  if (!post) return {};
+
+  const images = [{ url: post.image, alt: post.imageAlt }];
+
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: {
+      canonical: `/blog/${post.slug}`,
+    },
+    openGraph: {
+      type: "article",
+      url: `/blog/${post.slug}`,
+      title: post.title,
+      description: post.excerpt,
+      publishedTime: new Date(`${post.date}T00:00:00Z`).toISOString(),
+      authors: ["Aldy Prastyo"],
+      tags: post.tags,
+      images,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images,
+    },
+  };
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {

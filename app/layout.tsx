@@ -15,8 +15,19 @@ const notoSans = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Aldy Prastyo - Portfolio",
+  metadataBase: new URL("https://dipras.my.id"),
+  title: {
+    default: "Aldy Prastyo - Portfolio",
+    template: "%s | Aldy Prastyo",
+  },
   description: "Portfolio of Aldy Prastyo (Dipras), a Full-Stack Developer and Low-Level Enthusiast. Specializing in C, Linux, PHP, React Native, and modern web development.",
+  openGraph: {
+    siteName: "Aldy Prastyo - Portfolio",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
