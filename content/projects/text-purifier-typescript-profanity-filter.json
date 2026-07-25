@@ -1,0 +1,19 @@
+{
+  "slug": "text-purifier-typescript-profanity-filter",
+  "title": "Text Purifier",
+  "excerpt": "A lightweight, zero-dependency TypeScript library for detecting and censoring profanity with multilingual dictionaries, alias normalization, and precise match metadata.",
+  "year": 2026,
+  "category": "Developer Tools",
+  "tags": [
+    "TypeScript",
+    "Node.js",
+    "NPM",
+    "Text Processing"
+  ],
+  "image": "/uploads/projects/text-purifier-typescript-profanity-filter/thumbnail/featured.webp",
+  "imageAlt": "Text Purifier TypeScript profanity filter library",
+  "featured": true,
+  "published": true,
+  "sourceUrl": "https://github.com/dipras/text-purifier",
+  "demoUrl": "https://dipras.github.io/text-purifier"
+}
