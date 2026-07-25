@@ -55,6 +55,10 @@
   margin-top: 1.5rem;
 }
 
+.rich-content > :first-child {
+  margin-top: 0;
+}
+
 .rich-content h2 {
   margin-top: 3rem;
   font-size: 1.875rem;
@@ -154,4 +158,40 @@
   font-size: 0.875rem;
   line-height: 1.5;
   text-align: center;
+}
+
+@media (max-width: 47.999rem) {
+  .rich-content > * + * {
+    margin-top: 1.25rem;
+  }
+
+  .rich-content h2 {
+    margin-top: 2.5rem;
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .rich-content h3 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+  }
+
+  .rich-content p,
+  .rich-content li {
+    line-height: 1.75;
+  }
+
+  .rich-content figure {
+    margin-block: 2rem;
+  }
+
+  .rich-content figure img,
+  .rich-content > img {
+    border-radius: 0.75rem;
+    box-shadow: 0 14px 32px rgb(15 23 42 / 0.1);
+  }
+
+  .rich-content blockquote {
+    padding: 1rem 1.25rem;
+  }
 }
