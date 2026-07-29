@@ -1,3 +1,5 @@
+import { DiscordStatusBadge } from "@/components/DiscordPresence"
+
 export default function About() {
     return (
         <main className="grow pt-28 pb-20">
@@ -18,13 +20,9 @@ export default function About() {
                     </div>
                     <div className="flex flex-col gap-6 text-center md:text-left">
                         <div className="space-y-2">
-                            <div
-                                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-bold uppercase tracking-wider mx-auto md:mx-0 w-fit">
-                                <span className="size-2 rounded-full bg-primary animate-pulse"></span>
-                                Available for hire
-                            </div>
+                            <DiscordStatusBadge />
                             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-main leading-tight">
-                                Hi, I'm <span
+                                Hi, I&apos;m <span
                                     className="text-transparent bg-clip-text bg-linear-to-r from-primary to-sky-400">Dipras</span>.
                             </h1>
                             <h2 className="text-xl md:text-2xl font-medium text-text-muted">Full Stack &amp; Systems Engineer
@@ -34,7 +32,7 @@ export default function About() {
                             I bridge the gap between high-level web interfaces and low-level system operations.
                             Passionate about <strong className="text-text-main">Linux internals</strong>, minimalist code, and
                             building scalable applications.
-                            When I'm not writing <span
+                            When I&apos;m not writing <span
                                 className="font-mono text-primary bg-primary-soft/50 px-1 rounded">JavaScript</span> or <span
                                     className="font-mono text-primary bg-primary-soft/50 px-1 rounded">PHP</span>, you can find me
                             optimizing memory allocation in <span
@@ -190,7 +188,7 @@ export default function About() {
                                         <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2020 - 2022</span>
                                     </div>
                                     <p className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        Responsible for developing, customizing, and maintaining the organization's website to support its mission in empowering Muslim entrepreneurs across Indonesia.
+                                        Responsible for developing, customizing, and maintaining the organization&apos;s website to support its mission in empowering Muslim entrepreneurs across Indonesia.
                                     </p>
                                 </div>
                             </div>
@@ -301,10 +299,10 @@ export default function About() {
                     <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-black opacity-10 blur-3xl">
                     </div>
                     <div className="relative z-10 max-w-sm">
-                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Let's build something efficient together.
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Let&apos;s build something efficient together.
                         </h2>
                         <p className="text-sky-100 text-lg">
-                            Whether it's a high-performance backend, a mobile app, or systems programming, I'm ready to
+                            Whether it&apos;s a high-performance backend, a mobile app, or systems programming, I&apos;m ready to
                             tackle the challenge.
                         </p>
                     </div>

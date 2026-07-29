@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { DiscordStatusBadge } from "@/components/DiscordPresence";
 
 export default function Home() {
   return (
@@ -8,19 +9,13 @@ export default function Home() {
         <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-start gap-6 order-2 lg:order-1">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-light text-primary border border-sky-200">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                <span className="text-xs font-bold uppercase tracking-wider">Available for hire</span>
-              </div>
+              <DiscordStatusBadge />
               <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900 animate-fade-in-up">
-                Hi, I'm <span className="text-primary">Aldy Prastyo</span> <span aria-hidden="true">👋</span>
+                Hi, I&apos;m <span className="text-primary">Aldy Prastyo</span> <span aria-hidden="true">👋</span>
               </h1>
               <div className="text-lg text-slate-600 leading-relaxed max-w-lg flex flex-col gap-4 animate-fade-in-up delay-100">
                 <p>
-                  People call me <span className="text-primary">Dipras</span>. I'm a cheerful yet introverted developer who loves exploring how things work — from the lowest bits in C to the high level JavaScript.
+                  People call me <span className="text-primary">Dipras</span>. I&apos;m a cheerful yet introverted developer who loves exploring how things work — from the lowest bits in C to the high level JavaScript.
                 </p>
                 <p>
                   Currently studying at Telkom University Surabaya and working a full-stack developer

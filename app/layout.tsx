@@ -3,6 +3,7 @@ import { Space_Grotesk, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { DiscordPresenceProvider } from "@/components/DiscordPresence";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -23,6 +24,7 @@ materialSymbolsUrl.searchParams.set(
     "arrow_forward",
     "arrow_outward",
     "arrow_right_alt",
+    "chat",
     "check_circle",
     "close",
     "code",
@@ -77,9 +79,11 @@ export default function RootLayout({
         <link href={materialSymbolsUrl.toString()} rel="stylesheet" />
       </head>
       <body className={`${spaceGrotesk.variable} ${notoSans.variable} bg-background-light text-text-main font-display overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <DiscordPresenceProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </DiscordPresenceProvider>
       </body>
     </html>
   );

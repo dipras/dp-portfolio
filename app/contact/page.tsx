@@ -1,19 +1,20 @@
+import {
+    DiscordInformation,
+    DiscordStatusBadge,
+} from "@/components/DiscordPresence"
+
 export default function Contact() {
     return (
         <main className="grow pt-28 pb-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
                 <div className="mb-12 text-center md:text-left border-b border-slate-200 pb-10">
-                    <div
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-sky-700 text-xs font-semibold uppercase tracking-wide mb-4">
-                        <span className="material-symbols-outlined text-sm">code</span>
-                        <span>Open for work</span>
-                    </div>
+                    <DiscordStatusBadge />
                     <h1 className="font-display text-4xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
-                        Let's build something <span className="text-sky-700">amazing</span>.
+                        Let&apos;s build something <span className="text-sky-700">amazing</span>.
                     </h1>
                     <p className="text-lg md:text-xl text-slate-600 max-w-3xl leading-relaxed">
                         Specializing in JavaScript, PHP, React Native, and C. From high-level applications to low-level
-                        system programming, I'm ready for the next challenge.
+                        system programming, I&apos;m ready for the next challenge.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -110,44 +111,7 @@ export default function Contact() {
                                 </div>
                             </div>
                         </div>
-                        <div
-                            className="bg-linear-to-br from-sky-700 to-sky-900 rounded-3xl shadow-xl shadow-sky-900/20 p-6 md:p-8 text-white relative overflow-hidden">
-                            <div
-                                className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-sky-500 rounded-full opacity-20 blur-3xl">
-                            </div>
-                            <div
-                                className="absolute bottom-0 left-0 -mb-10 -ml-10 w-32 h-32 bg-sky-400 rounded-full opacity-10 blur-3xl">
-                            </div>
-                            <div className="relative z-10 flex flex-col h-full justify-between gap-6">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
-                                        <span className="material-symbols-outlined text-sky-100">terminal</span>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-bold text-lg leading-tight">System Status</h3>
-                                        <p className="text-sky-200 text-xs">Linux Env • Low-level</p>
-                                    </div>
-                                </div>
-                                <div className="space-y-3 bg-black/10 rounded-xl p-4 backdrop-blur-sm border border-white/5">
-                                    <div className="flex justify-between items-center text-sm">
-                                        <span className="text-sky-200">Response</span>
-                                        <span className="font-mono font-bold text-white">&lt; 24h</span>
-                                    </div>
-                                    <div className="w-full h-1 bg-sky-900/50 rounded-full overflow-hidden">
-                                        <div className="h-full bg-sky-300 w-3/4 rounded-full"></div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="flex items-center gap-2 text-sm bg-white/10 w-fit px-3 py-1.5 rounded-full backdrop-blur-md">
-                                    <span className="relative flex h-2 w-2">
-                                        <span
-                                            className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                    </span>
-                                    <span className="font-bold text-white text-xs tracking-wide">ONLINE &amp; CODING</span>
-                                </div>
-                            </div>
-                        </div>
+                        <DiscordInformation />
                     </div>
                 </div>
             </div>
