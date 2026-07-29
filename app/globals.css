@@ -132,12 +132,25 @@
 }
 
 .rich-content blockquote {
-  border-left: 4px solid var(--color-primary);
-  border-radius: 0 1rem 1rem 0;
+  position: relative;
+  border-radius: 1rem;
   background: var(--color-primary-soft);
-  padding: 1.25rem 1.5rem;
+  padding: 2rem 1.75rem 1.75rem 3.5rem;
   color: #334155;
   font-style: italic;
+}
+
+.rich-content blockquote::before {
+  content: "\201C";
+  position: absolute;
+  top: 0.35rem;
+  left: 1.25rem;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--color-primary);
+  opacity: 0.35;
 }
 
 .rich-content pre {

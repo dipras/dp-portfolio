@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
                 <span className="text-xs font-bold uppercase tracking-wider">Available for hire</span>
               </div>
               <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900 animate-fade-in-up">
-                Hi, I'm <span className="text-primary">Aldy Prastyo</span> 👋
+                Hi, I'm <span className="text-primary">Aldy Prastyo</span> <span aria-hidden="true">👋</span>
               </h1>
               <div className="text-lg text-slate-600 leading-relaxed max-w-lg flex flex-col gap-4 animate-fade-in-up delay-100">
                 <p>
@@ -23,9 +24,6 @@ export default function Home() {
                 </p>
                 <p>
                   Currently studying at Telkom University Surabaya and working a full-stack developer
-                </p>
-                <p className="italic font-mono text-sm text-slate-500">
-                  "i use Arch btw"
                 </p>
               </div>
               <div className="flex flex-wrap gap-4 pt-2 animate-fade-in-up delay-200">
@@ -45,7 +43,14 @@ export default function Home() {
             </div>
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white rotate-3 hover:rotate-0 transition-transform duration-500">
-                <div className="absolute inset-0 bg-cover bg-center bg-[url('https://lh3.googleusercontent.com/aida-public/AB6AXuCS_MwChMuthrQ_H4rdr7jesH0fWrlZHsdGf1yAaM1201ZFQ6R6uTJ3gJo01GzXTMYgZnUi4mpQkC9gYPjNL9aJwJvN31FFbRm_TibZzjc5C7WfN90s7U2JKRILoLJTjdoBO71fInRnQfwB_H-IgtlMyk9hWTKpDLtRTSFU792WEgI19zRJDFw7-OuPWObXa7Ld5kTOJjBkIkCwR21NmdTC1QdGGquckA5jFuEzDyFmPUhThWa0WwNSBw2MJxv9nOP6A5v6OqAsW2h7')]"></div>
+                <Image
+                  src="/about.webp"
+                  alt="Aldy Prastyo"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 28rem, 90vw"
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
                 <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white">
                   <div className="flex gap-2 mb-3">
@@ -57,7 +62,9 @@ export default function Home() {
                     <span className="text-green-400">$</span> ./init_portfolio.sh<br />
                     <span className="text-blue-300">&gt;</span> Loading modules...<br />
                     <span className="text-blue-300">&gt;</span> [OK] React Native<br />
-                    <span className="text-blue-300">&gt;</span> [OK] Linux Kernel v6.5
+                    <span className="text-blue-300">&gt;</span> [OK] Linux Kernel v6.5<br />
+                    <span className="text-green-400">$</span> uname -a<br />
+                    <span className="text-blue-300">&gt;</span> Arch Linux x86_64 (i use it btw)
                   </code>
                 </div>
               </div>
@@ -111,30 +118,40 @@ export default function Home() {
           <div className="max-w-4xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Technical Expertise</h2>
             <p className="text-slate-600 mb-10 max-w-xl mx-auto">My toolkit includes high-level frameworks for rapid development and low-level languages for performance critical tasks.</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-yellow-400 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-yellow-500 transition-colors">code</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">JavaScript</span>
+            <div className="grid sm:grid-cols-2 gap-10 sm:gap-6 max-w-2xl mx-auto">
+              <div className="flex flex-col items-center gap-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Languages &amp; Frameworks</span>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">code</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">JavaScript</span>
+                  </div>
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">data_object</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">PHP</span>
+                  </div>
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">smartphone</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">React Native</span>
+                  </div>
+                </div>
               </div>
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-indigo-400 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-indigo-500 transition-colors">data_object</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">PHP</span>
-              </div>
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-sky-400 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-sky-500 transition-colors">smartphone</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">React Native</span>
-              </div>
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-blue-600 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-blue-600 transition-colors">memory</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">C Programming</span>
-              </div>
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-slate-800 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-slate-800 transition-colors">terminal</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">Linux / Bash</span>
-              </div>
-              <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-orange-500 hover:shadow-md transition-all cursor-default">
-                <span className="material-symbols-outlined text-slate-400 group-hover:text-orange-600 transition-colors">commit</span>
-                <span className="font-bold text-slate-700 group-hover:text-slate-900">Git</span>
+              <div className="flex flex-col items-center gap-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Systems &amp; Tooling</span>
+                <div className="flex flex-wrap justify-center gap-4">
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">memory</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">C Programming</span>
+                  </div>
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">terminal</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">Linux / Bash</span>
+                  </div>
+                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                    <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">commit</span>
+                    <span className="font-bold text-slate-700 group-hover:text-slate-900">Git</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
