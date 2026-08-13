@@ -1,6 +1,8 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { BashTerminal } from "@/components/terminal";
 import type { TerminalCommandHandler } from "@/components/terminal";
 
@@ -23,6 +25,13 @@ GitHub      github.com/dipras
 LinkedIn    linkedin.com/in/aldy-prastyo
 Availability Remote / Worldwide`,
 };
+
+const NAV_DIRS: { name: string; path: string }[] = [
+  { name: "about", path: "/about" },
+  { name: "projects", path: "/projects" },
+  { name: "blog", path: "/blog" },
+  { name: "contact", path: "/contact" },
+];
 
 const SWATCHES = ["bg-sky-400", "bg-emerald-400", "bg-amber-400", "bg-rose-400", "bg-violet-400", "bg-slate-400"];
 
@@ -53,7 +62,8 @@ function FastfetchOutput() {
 
 const HELP_ITEMS: [string, string][] = [
   ["fastfetch", "show system info (alias: neofetch)"],
-  ["ls", "list files in this directory"],
+  ["ls", "list sections and files in this directory"],
+  ["cd <section>", "navigate to a section (about, projects, blog, contact)"],
   ["cat <file>", "print a file's contents"],
   ["whoami", "print the current user"],
   ["echo <text>", "print text back"],
@@ -77,6 +87,11 @@ function HelpOutput() {
 function LsOutput() {
   return (
     <div className="flex flex-wrap gap-x-5 gap-y-1 pt-1">
+      {NAV_DIRS.map((dir) => (
+        <span key={dir.name} className="text-blue-400 font-semibold">
+          {dir.name}/
+        </span>
+      ))}
       {Object.keys(FILES).map((name) => (
         <span key={name} className="text-sky-300">
           {name}
@@ -119,7 +134,23 @@ const catCommand: TerminalCommandHandler = ([name]) => {
   return <pre className="whitespace-pre-wrap text-slate-300 pt-1">{content}</pre>;
 };
 
-const commands: Record<string, TerminalCommandHandler> = {
+function makeCdCommand(navigate: (path: string) => void): TerminalCommandHandler {
+  return ([target]) => {
+    if (!target || target === "~" || target === "/" || target === "..") {
+      navigate("/");
+      return <p className="text-slate-400">Navigating to ~/ ...</p>;
+    }
+    const clean = target.replace(/^\.?\//, "").replace(/\/$/, "");
+    const dir = NAV_DIRS.find((d) => d.name === clean);
+    if (!dir) {
+      return <p className="text-slate-400">bash: cd: {target}: No such file or directory</p>;
+    }
+    navigate(dir.path);
+    return <p className="text-slate-400">Navigating to {dir.path} ...</p>;
+  };
+}
+
+const baseCommands: Record<string, TerminalCommandHandler> = {
   "help": () => <HelpOutput />,
   "fastfetch": () => <FastfetchOutput />,
   "neofetch": () => <FastfetchOutput />,
@@ -130,7 +161,6 @@ const commands: Record<string, TerminalCommandHandler> = {
   "echo": (args) => args.join(" "),
   "date": () => new Date().toString(),
   "clear": () => "CLEAR",
-  "cd": () => "bash: cd: nice try, this isn't a real filesystem",
   "sudo": () => "guest is not in the sudoers file. This incident will be reported. (jk, it's a static site 😄)",
   "exit": () => "There's no escape from a static site. Try closing the tab instead 👋",
   "logout": () => "There's no escape from a static site. Try closing the tab instead 👋",
@@ -138,6 +168,16 @@ const commands: Record<string, TerminalCommandHandler> = {
 };
 
 export default function PortfolioTerminal() {
+  const router = useRouter();
+
+  const commands = useMemo<Record<string, TerminalCommandHandler>>(
+    () => ({
+      ...baseCommands,
+      "cd": makeCdCommand((path) => router.push(path)),
+    }),
+    [router]
+  );
+
   return (
     <BashTerminal
       user="guest"

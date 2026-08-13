@@ -190,7 +190,7 @@ export default function BashTerminal({
       <div
         ref={bodyRef}
         onClick={focusInput}
-        className="flex-1 overflow-y-auto px-4 py-3 font-mono text-[13px] leading-relaxed text-slate-300 cursor-text"
+        className="terminal-scrollbar flex-1 overflow-y-auto px-4 py-3 font-mono text-[13px] leading-relaxed text-slate-300 cursor-text"
       >
         {history.map((entry) => (
           <div key={entry.id} className="mb-2">
