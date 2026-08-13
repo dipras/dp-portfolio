@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { DiscordPresenceProvider } from "@/components/DiscordPresence";
+import PageTransition from "@/components/motion/PageTransition";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -81,7 +82,7 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} ${notoSans.variable} bg-background-light text-text-main font-display overflow-x-hidden antialiased selection:bg-primary/20 selection:text-primary`}>
         <DiscordPresenceProvider>
           <Navbar />
-          {children}
+          <PageTransition>{children}</PageTransition>
           <Footer />
         </DiscordPresenceProvider>
       </body>

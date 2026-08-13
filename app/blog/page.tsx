@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatPostDate, getPosts } from "@/lib/content";
+import Reveal from "@/components/motion/Reveal";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 
 export default function Blog() {
   const posts = getPosts();
@@ -11,7 +13,7 @@ export default function Blog() {
   return (
     <main className="flex-1 w-full max-w-7xl mx-auto px-4 pt-28 pb-20 lg:px-8">
       {featured && (
-        <section className="mb-16">
+        <Reveal as="section" className="mb-16">
           <Link
             href={`/blog/${featured.slug}`}
             className="group relative block overflow-hidden rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
@@ -51,7 +53,7 @@ export default function Blog() {
               </div>
             </div>
           </Link>
-        </section>
+        </Reveal>
       )}
 
       <div className="flex flex-col lg:flex-row gap-12">
@@ -63,10 +65,11 @@ export default function Blog() {
             </h2>
           </div>
           {latest.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {latest.map((post) => (
-                <article
+                <StaggerItem
                   key={post.slug}
+                  as="article"
                   className="group card-hover flex flex-col h-full bg-white border border-slate-200 rounded-2xl overflow-hidden"
                 >
                   <Link href={`/blog/${post.slug}`} className="h-52 overflow-hidden relative">
@@ -102,15 +105,15 @@ export default function Blog() {
                       </span>
                     </Link>
                   </div>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
+            </StaggerGroup>
           ) : (
             <p className="text-text-muted">More articles are coming soon.</p>
           )}
         </section>
 
-        <aside className="w-full lg:w-80 flex flex-col gap-8 shrink-0">
+        <Reveal as="aside" delay={0.1} className="w-full lg:w-80 flex flex-col gap-8 shrink-0">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
             <h3 className="text-base font-bold mb-4 flex items-center gap-2">
               <span className="material-symbols-outlined text-primary">tag</span>
@@ -137,7 +140,7 @@ export default function Blog() {
               </p>
             </div>
           </div>
-        </aside>
+        </Reveal>
       </div>
     </main>
   );

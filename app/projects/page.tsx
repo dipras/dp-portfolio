@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProjects, type Project } from "@/lib/content";
+import Reveal from "@/components/motion/Reveal";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 
 function ProjectVisual({ project, featured = false }: { project: Project; featured?: boolean }) {
   if (project.image) {
@@ -39,7 +41,7 @@ export default function Projects() {
   return (
     <main className="grow pt-28 pb-20">
       <div className="max-w-300 mx-auto px-4 md:px-10 flex flex-col gap-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="flex flex-col gap-3 max-w-2xl">
             <div className="inline-flex w-fit items-center gap-2 px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-bold uppercase tracking-wider mb-2">
               <span className="size-2 rounded-full bg-primary animate-pulse" />
@@ -64,10 +66,10 @@ export default function Projects() {
               </span>
             ))}
           </div>
-        </div>
+        </Reveal>
 
         {featured && (
-          <article className="group relative flex flex-col md:flex-row overflow-hidden rounded-3xl bg-card shadow-xl shadow-slate-200/60 border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+          <Reveal delay={0.1} as="article" className="group relative flex flex-col md:flex-row overflow-hidden rounded-3xl bg-card shadow-xl shadow-slate-200/60 border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
             <div className="flex flex-col justify-center p-8 md:p-12 md:w-1/2 gap-6 order-2 md:order-1">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-bold uppercase tracking-wide">
@@ -100,13 +102,14 @@ export default function Projects() {
             <div className="md:w-1/2 order-1 md:order-2">
               <ProjectVisual project={featured} featured />
             </div>
-          </article>
+          </Reveal>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {rest.map((project) => (
-            <article
+            <StaggerItem
               key={project.slug}
+              as="article"
               className="group flex flex-col rounded-3xl bg-card overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100"
             >
               <ProjectVisual project={project} />
@@ -140,9 +143,9 @@ export default function Projects() {
                   </Link>
                 </div>
               </div>
-            </article>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
       </div>
     </main>
   );

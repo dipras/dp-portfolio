@@ -1,11 +1,13 @@
 import { DiscordStatusBadge } from "@/components/DiscordPresence"
+import Reveal from "@/components/motion/Reveal"
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger"
 
 export default function About() {
     return (
         <main className="grow pt-28 pb-20">
             <div className="max-w-250 mx-auto px-4 md:px-10 flex flex-col gap-16">
                 <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
-                    <div className="relative shrink-0 group">
+                    <Reveal className="relative shrink-0 group">
                         <div
                             className="absolute -inset-4 rounded-full bg-linear-to-r from-primary to-sky-300 opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-500">
                         </div>
@@ -17,8 +19,8 @@ export default function About() {
                         <div className="absolute -bottom-6 -right-6 bg-white p-3 rounded-2xl shadow-lg border border-slate-100 hidden md:block animate-bounce [animation-duration:3s]">
                             <span className="material-symbols-outlined text-4xl text-primary">code</span>
                         </div>
-                    </div>
-                    <div className="flex flex-col gap-6 text-center md:text-left">
+                    </Reveal>
+                    <Reveal delay={0.1} className="flex flex-col gap-6 text-center md:text-left">
                         <div className="space-y-2">
                             <DiscordStatusBadge />
                             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-main leading-tight">
@@ -51,9 +53,9 @@ export default function About() {
                                 github.com/dipras
                             </a>
                         </div>
-                    </div>
+                    </Reveal>
                 </div>
-                <div className="w-full py-8 border-y border-dashed border-slate-200">
+                <Reveal className="w-full py-8 border-y border-dashed border-slate-200">
                     <div
                         className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-12 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
                         <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
@@ -72,7 +74,7 @@ export default function About() {
                             <span className="material-symbols-outlined text-3xl">terminal</span> Linux
                         </div>
                     </div>
-                </div>
+                </Reveal>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
                     <div className="flex flex-col gap-8">
                         <div className="flex items-center gap-3 mb-2">
@@ -81,9 +83,9 @@ export default function About() {
                             </div>
                             <h3 className="text-2xl font-bold text-text-main">Experience</h3>
                         </div>
-                        <div className="relative pl-8 border-l border-slate-200 space-y-10">
+                        <StaggerGroup className="relative pl-8 border-l border-slate-200 space-y-10">
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -108,9 +110,9 @@ export default function About() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -130,9 +132,9 @@ export default function About() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -152,9 +154,9 @@ export default function About() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -175,9 +177,9 @@ export default function About() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -191,9 +193,9 @@ export default function About() {
                                         Responsible for developing, customizing, and maintaining the organization&apos;s website to support its mission in empowering Muslim entrepreneurs across Indonesia.
                                     </p>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -207,9 +209,9 @@ export default function About() {
                                         Freelance developer. Developed the backend of a financial reporting system for OpenRoad Auto Group (USA) using Node.js.
                                     </p>
                                 </div>
-                            </div>
+                            </StaggerItem>
 
-                            <div className="relative">
+                            <StaggerItem className="relative">
                                 <span
                                     className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
                                 <div className="flex flex-col gap-2 group">
@@ -228,8 +230,8 @@ export default function About() {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </StaggerItem>
+                        </StaggerGroup>
                     </div>
                     <div className="flex flex-col gap-8">
                         <div className="flex items-center gap-3 mb-2">
@@ -238,8 +240,8 @@ export default function About() {
                             </div>
                             <h3 className="text-2xl font-bold text-text-main">Education</h3>
                         </div>
-                        <div className="flex flex-col gap-6">
-                            <div
+                        <StaggerGroup className="flex flex-col gap-6">
+                            <StaggerItem
                                 className="group p-6 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
                                 <div className="flex justify-between items-start mb-2">
                                     <h4 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors">
@@ -251,8 +253,8 @@ export default function About() {
                                 <p className="text-sm text-text-muted">
                                     Major in Rekayasa Perangkat Lunak. Focusing on modern software development practices and system architecture.
                                 </p>
-                            </div>
-                            <div
+                            </StaggerItem>
+                            <StaggerItem
                                 className="group p-6 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
                                 <div className="flex justify-between items-start mb-2">
                                     <h4 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors">
@@ -264,8 +266,8 @@ export default function About() {
                                 <p className="text-sm text-text-muted">
                                     Major in Teknik Komputer dan Jaringan (TKJ). Learned about network infrastructure, server administration, and hardware troubleshooting.
                                 </p>
-                            </div>
-                            <div className="mt-4 p-6 rounded-3xl bg-slate-50 border border-dashed border-slate-200">
+                            </StaggerItem>
+                            <StaggerItem className="mt-4 p-6 rounded-3xl bg-slate-50 border border-dashed border-slate-200">
                                 <h4 className="text-sm font-bold text-text-muted uppercase tracking-wider mb-4">Certifications
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
@@ -288,11 +290,11 @@ export default function About() {
                                         Cisco CCNA
                                     </span>
                                 </div>
-                            </div>
-                        </div>
+                            </StaggerItem>
+                        </StaggerGroup>
                     </div>
                 </div>
-                <div
+                <Reveal
                     className="relative rounded-4xl bg-linear-to-br from-primary to-sky-600 p-8 md:p-12 overflow-hidden text-center md:text-left flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl shadow-primary/20">
                     <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10 blur-3xl">
                     </div>
@@ -317,7 +319,7 @@ export default function About() {
                             Download CV
                         </a>
                     </div>
-                </div>
+                </Reveal>
             </div>
         </main>
     )

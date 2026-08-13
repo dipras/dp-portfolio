@@ -2,12 +2,13 @@ import {
     DiscordInformation,
     DiscordStatusBadge,
 } from "@/components/DiscordPresence"
+import Reveal from "@/components/motion/Reveal"
 
 export default function Contact() {
     return (
         <main className="grow pt-28 pb-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
-                <div className="mb-12 text-center md:text-left border-b border-slate-200 pb-10">
+                <Reveal className="mb-12 text-center md:text-left border-b border-slate-200 pb-10">
                     <DiscordStatusBadge />
                     <h1 className="font-display text-4xl md:text-6xl font-bold text-slate-900 mb-4 tracking-tight">
                         Let&apos;s build something <span className="text-sky-700">amazing</span>.
@@ -16,9 +17,9 @@ export default function Contact() {
                         I work mainly with JavaScript, PHP, React Native, and C, covering everything from
                         application code down to lower-level systems work.
                     </p>
-                </div>
+                </Reveal>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-                    <div className="lg:col-span-7">
+                    <Reveal delay={0.1} className="lg:col-span-7">
                         <div
                             className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 p-6 md:p-10 h-full">
                             <h3 className="text-2xl font-display font-bold text-slate-900 mb-8 flex items-center gap-2">
@@ -64,8 +65,8 @@ export default function Contact() {
                                 </div>
                             </form>
                         </div>
-                    </div>
-                    <div className="lg:col-span-5 flex flex-col gap-6">
+                    </Reveal>
+                    <Reveal delay={0.2} className="lg:col-span-5 flex flex-col gap-6">
                         <div
                             className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 p-6 md:p-10 grow">
                             <h3 className="text-2xl font-display font-bold text-slate-900 mb-8">Contact Info</h3>
@@ -112,7 +113,7 @@ export default function Contact() {
                             </div>
                         </div>
                         <DiscordInformation />
-                    </div>
+                    </Reveal>
                 </div>
             </div>
         </main>

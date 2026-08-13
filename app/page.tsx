@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { DiscordStatusBadge } from "@/components/DiscordPresence";
+import Reveal from "@/components/motion/Reveal";
+import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 
 export default function Home() {
   return (
@@ -10,18 +12,20 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-start gap-6 order-2 lg:order-1">
               <DiscordStatusBadge />
-              <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900 animate-fade-in-up">
-                Hi, I&apos;m <span className="text-primary">Aldy Prastyo</span> <span aria-hidden="true">👋</span>
-              </h1>
-              <div className="text-lg text-slate-600 leading-relaxed max-w-lg flex flex-col gap-4 animate-fade-in-up delay-100">
+              <Reveal>
+                <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900">
+                  Hi, I&apos;m <span className="text-primary">Aldy Prastyo</span> <span aria-hidden="true">👋</span>
+                </h1>
+              </Reveal>
+              <Reveal delay={0.1} className="text-lg text-slate-600 leading-relaxed max-w-lg flex flex-col gap-4">
                 <p>
                   People call me <span className="text-primary">Dipras</span>. I&apos;m a cheerful yet introverted developer who loves exploring how things work, from the lowest bits in C to high-level JavaScript.
                 </p>
                 <p>
                   Currently studying at Telkom University Surabaya and working as a full-stack developer.
                 </p>
-              </div>
-              <div className="flex flex-wrap gap-4 pt-2 animate-fade-in-up delay-200">
+              </Reveal>
+              <Reveal delay={0.2} className="flex flex-wrap gap-4 pt-2">
                 <Link
                   href="/projects"
                   className="rounded-full bg-primary hover:bg-primary-hover text-white px-8 py-3.5 text-base font-bold transition-all shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5"
@@ -34,9 +38,9 @@ export default function Home() {
                 >
                   Read Blog
                 </Link>
-              </div>
+              </Reveal>
             </div>
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
+            <Reveal delay={0.15} className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
               <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white rotate-3 hover:rotate-0 transition-transform duration-500">
                 <Image
                   src="/about.webp"
@@ -64,91 +68,93 @@ export default function Home() {
                 </div>
               </div>
               <div className="absolute -z-10 top-10 right-10 w-72 h-72 bg-sky-200 rounded-full blur-3xl opacity-30"></div>
-            </div>
+            </Reveal>
           </div>
         </section>
         <section className="py-20 bg-slate-50" id="about">
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex flex-col md:flex-row gap-12 lg:gap-20">
-              <div className="md:w-1/3 flex flex-col gap-6">
+              <Reveal className="md:w-1/3 flex flex-col gap-6">
                 <h2 className="text-3xl font-bold text-slate-900">About Me</h2>
                 <p className="text-slate-600 leading-relaxed">
                   I am a developer who loves digging deep. I build applications with modern web technologies, but what I really enjoy is understanding how things work under the hood, whether that means optimizing memory in <strong>C</strong> or configuring a <strong>Linux</strong> environment.
                 </p>
-              </div>
-              <div className="md:w-2/3 grid sm:grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+              </Reveal>
+              <StaggerGroup className="md:w-2/3 grid sm:grid-cols-2 gap-6">
+                <StaggerItem className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center text-primary mb-4">
                     <span className="material-symbols-outlined">memory</span>
                   </div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2">Low-Level Enthusiast</h3>
                   <p className="text-slate-500 text-sm">Passionate about C programming, memory management, and system architecture.</p>
-                </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                </StaggerItem>
+                <StaggerItem className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center text-primary mb-4">
                     <span className="material-symbols-outlined">layers</span>
                   </div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2">Full-Stack Capable</h3>
                   <p className="text-slate-500 text-sm">Building scalable apps with PHP backends and responsive React frontends.</p>
-                </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                </StaggerItem>
+                <StaggerItem className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center text-primary mb-4">
                     <span className="material-symbols-outlined">terminal</span>
                   </div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2">Linux Native</h3>
                   <p className="text-slate-500 text-sm">Comfortable in the terminal, managing servers, bash scripting, and kernel tinkering.</p>
-                </div>
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                </StaggerItem>
+                <StaggerItem className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 rounded-lg bg-sky-100 flex items-center justify-center text-primary mb-4">
                     <span className="material-symbols-outlined">smartphone</span>
                   </div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2">Mobile Dev</h3>
                   <p className="text-slate-500 text-sm">Crafting cross-platform mobile experiences with React Native that feel native.</p>
-                </div>
-              </div>
+                </StaggerItem>
+              </StaggerGroup>
             </div>
           </div>
         </section>
         <section className="py-20" id="skills">
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Technical Expertise</h2>
-            <p className="text-slate-600 mb-10 max-w-xl mx-auto">My toolkit includes high-level frameworks for rapid development and low-level languages for performance critical tasks.</p>
-            <div className="grid sm:grid-cols-2 gap-10 sm:gap-6 max-w-2xl mx-auto">
+            <Reveal>
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Technical Expertise</h2>
+              <p className="text-slate-600 mb-10 max-w-xl mx-auto">My toolkit includes high-level frameworks for rapid development and low-level languages for performance critical tasks.</p>
+            </Reveal>
+            <StaggerGroup className="grid sm:grid-cols-2 gap-10 sm:gap-6 max-w-2xl mx-auto">
               <div className="flex flex-col items-center gap-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Languages &amp; Frameworks</span>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">code</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">JavaScript</span>
-                  </div>
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  </StaggerItem>
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">data_object</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">PHP</span>
-                  </div>
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  </StaggerItem>
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">smartphone</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">React Native</span>
-                  </div>
+                  </StaggerItem>
                 </div>
               </div>
               <div className="flex flex-col items-center gap-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Systems &amp; Tooling</span>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">memory</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">C Programming</span>
-                  </div>
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  </StaggerItem>
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">terminal</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">Linux / Bash</span>
-                  </div>
-                  <div className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
+                  </StaggerItem>
+                  <StaggerItem className="group flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-full shadow-sm hover:border-primary/40 hover:shadow-md hover:shadow-primary/20 transition-all cursor-default">
                     <span className="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors">commit</span>
                     <span className="font-bold text-slate-700 group-hover:text-slate-900">Git</span>
-                  </div>
+                  </StaggerItem>
                 </div>
               </div>
-            </div>
+            </StaggerGroup>
           </div>
         </section>
       </main>
