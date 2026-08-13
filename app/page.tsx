@@ -15,10 +15,10 @@ export default function Home() {
               </h1>
               <div className="text-lg text-slate-600 leading-relaxed max-w-lg flex flex-col gap-4 animate-fade-in-up delay-100">
                 <p>
-                  People call me <span className="text-primary">Dipras</span>. I&apos;m a cheerful yet introverted developer who loves exploring how things work — from the lowest bits in C to the high level JavaScript.
+                  People call me <span className="text-primary">Dipras</span>. I&apos;m a cheerful yet introverted developer who loves exploring how things work, from the lowest bits in C to high-level JavaScript.
                 </p>
                 <p>
-                  Currently studying at Telkom University Surabaya and working a full-stack developer
+                  Currently studying at Telkom University Surabaya and working as a full-stack developer.
                 </p>
               </div>
               <div className="flex flex-wrap gap-4 pt-2 animate-fade-in-up delay-200">
@@ -73,7 +73,7 @@ export default function Home() {
               <div className="md:w-1/3 flex flex-col gap-6">
                 <h2 className="text-3xl font-bold text-slate-900">About Me</h2>
                 <p className="text-slate-600 leading-relaxed">
-                  I am a developer who loves digging deep. While I build robust applications using modern web technologies, my true passion lies in understanding how things work under the hood. From optimizing memory in <strong>C</strong> to configuring complex <strong>Linux</strong> environments, I thrive on complexity.
+                  I am a developer who loves digging deep. I build applications with modern web technologies, but what I really enjoy is understanding how things work under the hood, whether that means optimizing memory in <strong>C</strong> or configuring a <strong>Linux</strong> environment.
                 </p>
               </div>
               <div className="md:w-2/3 grid sm:grid-cols-2 gap-6">

@@ -13,8 +13,8 @@ export default function Contact() {
                         Let&apos;s build something <span className="text-sky-700">amazing</span>.
                     </h1>
                     <p className="text-lg md:text-xl text-slate-600 max-w-3xl leading-relaxed">
-                        Specializing in JavaScript, PHP, React Native, and C. From high-level applications to low-level
-                        system programming, I&apos;m ready for the next challenge.
+                        I work mainly with JavaScript, PHP, React Native, and C, covering everything from
+                        application code down to lower-level systems work.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">

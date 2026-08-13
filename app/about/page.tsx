@@ -302,8 +302,8 @@ export default function About() {
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Let&apos;s build something efficient together.
                         </h2>
                         <p className="text-sky-100 text-lg">
-                            Whether it&apos;s a high-performance backend, a mobile app, or systems programming, I&apos;m ready to
-                            tackle the challenge.
+                            Whether that&apos;s a backend, a mobile app, or something closer to the system level,
+                            I&apos;m interested in working on it.
                         </p>
                     </div>
                     <div className="relative z-10 flex flex-col sm:flex-row gap-4">
