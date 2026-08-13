@@ -3,8 +3,14 @@ import Link from "next/link";
 import { DiscordStatusBadge } from "@/components/DiscordPresence";
 import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
+import { formatPostDate, getPosts, getProjects } from "@/lib/content";
 
 export default function Home() {
+  const projects = getProjects();
+  const featuredProject = projects.find((project) => project.featured) ?? projects[0];
+  const listedProjects = projects.filter((project) => project.slug !== featuredProject?.slug).slice(0, 4);
+  const posts = getPosts().slice(0, 3);
+
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col">
       <main className="grow">
@@ -71,6 +77,112 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
+        {projects.length > 0 && (
+          <section className="py-20" id="projects">
+            <div className="max-w-6xl mx-auto px-6 flex flex-col gap-10">
+              <Reveal className="flex flex-col gap-3 max-w-xl">
+                <h2 className="text-3xl font-bold text-slate-900">Selected Work</h2>
+                <p className="text-slate-600 leading-relaxed">
+                  A few things I&apos;ve built recently, from developer tooling to editor extensions.
+                </p>
+              </Reveal>
+
+              {featuredProject && (
+                <Reveal
+                  delay={0.1}
+                  as="article"
+                  className="group relative flex flex-col md:flex-row overflow-hidden rounded-3xl bg-white shadow-xl shadow-slate-200/60 border border-slate-100 hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="relative min-h-80 h-full md:w-1/2">
+                    <Image
+                      src={featuredProject.image}
+                      alt={featuredProject.imageAlt}
+                      fill
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center p-8 md:p-10 md:w-1/2 gap-5">
+                    <div className="flex items-center gap-3">
+                      <span className="px-3 py-1 rounded-full bg-primary-soft text-primary text-xs font-bold uppercase tracking-wide">
+                        Featured
+                      </span>
+                      <span className="text-xs font-semibold text-slate-400">{featuredProject.year}</span>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold text-slate-900 group-hover:text-primary transition-colors">
+                      {featuredProject.title}
+                    </h3>
+                    <p className="text-slate-600 leading-relaxed">{featuredProject.excerpt}</p>
+                    <div className="flex flex-wrap gap-2">
+                      {featuredProject.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 text-xs font-mono font-medium border border-slate-200"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href={`/projects/${featuredProject.slug}`}
+                      className="w-fit flex items-center gap-2 h-12 px-8 rounded-full bg-slate-900 text-white font-semibold text-sm hover:bg-primary transition-colors shadow-lg shadow-slate-900/10"
+                    >
+                      View Case Study
+                      <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                    </Link>
+                  </div>
+                </Reveal>
+              )}
+
+              {listedProjects.length > 0 && (
+                <StaggerGroup className="grid sm:grid-cols-2 gap-6">
+                  {listedProjects.map((project) => (
+                    <StaggerItem
+                      key={project.slug}
+                      as="article"
+                      className="group flex flex-col rounded-3xl bg-white overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100"
+                    >
+                      <div className="relative h-48 overflow-hidden">
+                        <Image
+                          src={project.image}
+                          alt={project.imageAlt}
+                          fill
+                          className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                          sizes="(min-width: 640px) 50vw, 100vw"
+                        />
+                      </div>
+                      <div className="flex flex-col flex-1 p-6 gap-3">
+                        <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                          {project.category} · {project.year}
+                        </p>
+                        <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">
+                          <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                        </h3>
+                        <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 flex-1">{project.excerpt}</p>
+                        <Link
+                          href={`/projects/${project.slug}`}
+                          className="text-sm font-bold text-slate-900 hover:text-primary flex items-center gap-1 transition-colors mt-1"
+                        >
+                          View Project
+                          <span className="material-symbols-outlined text-base">arrow_outward</span>
+                        </Link>
+                      </div>
+                    </StaggerItem>
+                  ))}
+                </StaggerGroup>
+              )}
+
+              <Reveal delay={0.2} className="flex justify-center pt-2">
+                <Link
+                  href="/projects"
+                  className="rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-3.5 text-base font-bold transition-all hover:-translate-y-0.5"
+                >
+                  View All Projects
+                </Link>
+              </Reveal>
+            </div>
+          </section>
+        )}
         <section className="py-20 bg-slate-50" id="about">
           <div className="max-w-6xl mx-auto px-6">
             <div className="flex flex-col md:flex-row gap-12 lg:gap-20">
@@ -157,6 +269,63 @@ export default function Home() {
             </StaggerGroup>
           </div>
         </section>
+        {posts.length > 0 && (
+          <section className="py-20 bg-slate-50" id="articles">
+            <div className="max-w-6xl mx-auto px-6 flex flex-col gap-10">
+              <Reveal className="flex flex-col gap-3 max-w-xl">
+                <h2 className="text-3xl font-bold text-slate-900">From the Blog</h2>
+                <p className="text-slate-600 leading-relaxed">
+                  Notes on what I&apos;m building and learning, from web apps down to the kernel.
+                </p>
+              </Reveal>
+
+              <StaggerGroup className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {posts.map((post) => (
+                  <StaggerItem
+                    key={post.slug}
+                    as="article"
+                    className="group flex flex-col rounded-3xl bg-white overflow-hidden shadow-lg shadow-slate-200/50 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-100"
+                  >
+                    <div className="relative h-48 overflow-hidden">
+                      <Image
+                        src={post.image}
+                        alt={post.imageAlt}
+                        fill
+                        className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      />
+                    </div>
+                    <div className="flex flex-col flex-1 p-6 gap-3">
+                      <p className="text-xs font-bold uppercase tracking-wide text-primary">
+                        {formatPostDate(post.date)} · {post.readTime}
+                      </p>
+                      <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary transition-colors">
+                        <Link href={`/blog/${post.slug}`}>{post.title}</Link>
+                      </h3>
+                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 flex-1">{post.excerpt}</p>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="text-sm font-bold text-slate-900 hover:text-primary flex items-center gap-1 transition-colors mt-1"
+                      >
+                        Read Article
+                        <span className="material-symbols-outlined text-base">arrow_outward</span>
+                      </Link>
+                    </div>
+                  </StaggerItem>
+                ))}
+              </StaggerGroup>
+
+              <Reveal delay={0.2} className="flex justify-center pt-2">
+                <Link
+                  href="/blog"
+                  className="rounded-full bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-8 py-3.5 text-base font-bold transition-all hover:-translate-y-0.5"
+                >
+                  Read All Articles
+                </Link>
+              </Reveal>
+            </div>
+          </section>
+        )}
       </main>
     </div>
   );
