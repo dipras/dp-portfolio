@@ -1,0 +1,18 @@
+{
+  "slug": "momoisay-vscode-extension",
+  "title": "Momoisay VSCode Extension",
+  "excerpt": "Momoisay but in VSCode that acompany you code",
+  "year": 2026,
+  "category": "extension",
+  "tags": [
+    "vscode",
+    "typescript",
+    "javascript"
+  ],
+  "image": "/uploads/projects/momoisay-vscode-extension/thumbnail/1786612783964.webp",
+  "imageAlt": "Momoisay VSCode Extension",
+  "featured": false,
+  "published": true,
+  "sourceUrl": "https://github.com/dipras/momoisay-vsc-extension",
+  "demoUrl": ""
+}
