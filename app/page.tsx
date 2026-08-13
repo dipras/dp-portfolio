@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { DiscordStatusBadge } from "@/components/DiscordPresence";
+import PortfolioTerminal from "@/components/PortfolioTerminal";
 import Reveal from "@/components/motion/Reveal";
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger";
 import { formatPostDate, getPosts, getProjects } from "@/lib/content";
@@ -16,7 +17,7 @@ export default function Home() {
       <main className="grow">
         <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
           <div className="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="flex flex-col items-start gap-6 order-2 lg:order-1">
+            <div className="flex flex-col items-start gap-6 lg:order-1">
               <DiscordStatusBadge />
               <Reveal>
                 <h1 className="text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-slate-900">
@@ -46,33 +47,8 @@ export default function Home() {
                 </Link>
               </Reveal>
             </div>
-            <Reveal delay={0.15} className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
-              <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white rotate-3 hover:rotate-0 transition-transform duration-500">
-                <Image
-                  src="/about.webp"
-                  alt="Aldy Prastyo"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 28rem, 90vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
-                <div className="absolute bottom-6 left-6 right-6 p-5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white">
-                  <div className="flex gap-2 mb-3">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-                  </div>
-                  <code className="font-mono text-xs opacity-90 block leading-relaxed">
-                    <span className="text-green-400">$</span> ./init_portfolio.sh<br />
-                    <span className="text-blue-300">&gt;</span> Loading modules...<br />
-                    <span className="text-blue-300">&gt;</span> [OK] React Native<br />
-                    <span className="text-blue-300">&gt;</span> [OK] Linux Kernel v6.5<br />
-                    <span className="text-green-400">$</span> uname -a<br />
-                    <span className="text-blue-300">&gt;</span> Arch Linux x86_64 (i use it btw)
-                  </code>
-                </div>
-              </div>
+            <Reveal delay={0.15} className="lg:order-2 flex justify-center lg:justify-end relative">
+              <PortfolioTerminal />
               <div className="absolute -z-10 top-10 right-10 w-72 h-72 bg-sky-200 rounded-full blur-3xl opacity-30"></div>
             </Reveal>
           </div>
