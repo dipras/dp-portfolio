@@ -1,0 +1,122 @@
+{
+  "name": "Aldy Prastyo",
+  "nickname": "Dipras",
+  "title": "Full Stack & Systems Engineer",
+  "email": "dipras75@gmail.com",
+  "website": "dipras.my.id",
+  "github": "github.com/dipras",
+  "photo": "/about.webp",
+  "intro": "I bridge the gap between high-level web interfaces and low-level system operations. Passionate about **Linux internals**, minimalist code, and building scalable applications. When I'm not writing `JavaScript` or `PHP`, you can find me optimizing memory allocation in `C`.",
+  "skills": [
+    { "label": "JS/TS", "icon": "javascript" },
+    { "label": "PHP", "icon": "php" },
+    { "label": "React Native", "icon": "smartphone" },
+    { "label": "C / Systems", "icon": "memory" },
+    { "label": "Linux", "icon": "terminal" }
+  ],
+  "resumeSkills": [
+    { "group": "Languages", "items": ["JavaScript", "TypeScript", "PHP", "C", "SQL"] },
+    { "group": "Frontend", "items": ["React.js", "Next.js", "React Native", "Tailwind CSS"] },
+    { "group": "Backend", "items": ["Node.js", "NestJS", "Express.js", "Bun.js", "REST API"] },
+    { "group": "Systems & Tools", "items": ["Linux", "Git", "Docker", "Nginx", "WordPress"] }
+  ],
+  "experience": [
+    {
+      "role": "Fullstack Developer",
+      "company": "Starasia Perkasa Teknologi",
+      "period": "2026 - Present",
+      "current": true,
+      "summary": "I currently work as a Fullstack Developer at Star Perkasa Teknologi, developing a modular enterprise Super App used to digitize and automate internal business operations.",
+      "highlights": [
+        "Architect and develop enterprise modules using React.js & Express.js",
+        "Implement complex approval workflows, role-based access control (RBAC), and business process automation.",
+        "Develop financial and HR-related modules including Cash Advance, Business Travel, and Assessment Center.",
+        "Design reusable backend APIs and shared frontend components for a modular application ecosystem.",
+        "Collaborate in an Agile development environment, participating in requirement analysis, implementation, testing, and deployment.",
+        "Continuously improve application performance, maintainability, and scalability following modern software engineering best practices."
+      ]
+    },
+    {
+      "role": "Fullstack Developer",
+      "company": "Export Expert",
+      "period": "2024 - 2026",
+      "current": false,
+      "summary": "I was work as a Fullstack Developer at Export Expert Indonesia, an exclusive integration platform designed to empower Indonesians eager to explore the export industry.",
+      "highlights": [
+        "Develop and maintain the main website of exportexpert.id using React.js.",
+        "Build the backend server with NestJS, ensuring scalable architecture.",
+        "Create the mobile application using React Native for Android and iOS.",
+        "Develop the admin panel with Bun.js for internal management."
+      ]
+    },
+    {
+      "role": "Community Moderator",
+      "company": "Web Programming Unpas",
+      "period": "2022 - 2024",
+      "current": false,
+      "summary": "Moderator for the Web Programming UNPAS Discord community.",
+      "highlights": [
+        "Contributed to Bellshade, a GitHub repository for learning programming.",
+        "Moderated the WPU CSS War event in 2022.",
+        "Served as a moderator for WPUCast podcast.",
+        "Helped organize the Kartini Day event."
+      ]
+    },
+    {
+      "role": "Fullstack Developer",
+      "company": "Aspenku",
+      "period": "2022 - 2024",
+      "current": false,
+      "summary": "Developed several projects for a goods export company based in Jakarta.",
+      "highlights": [
+        "Backend Server: Developed API using Node.js.",
+        "Frontend Website: Built aspenku.com using React.js.",
+        "Mobile Application: Developed app using React Native.",
+        "Admin Panel: Created dashboard using Next.js.",
+        "NLC Website: Developed nlc.aspenku.com with WordPress."
+      ]
+    },
+    {
+      "role": "Wordpress Developer",
+      "company": "KPMI",
+      "period": "2020 - 2022",
+      "current": false,
+      "summary": "Responsible for developing, customizing, and maintaining the organization's website to support its mission in empowering Muslim entrepreneurs across Indonesia.",
+      "highlights": []
+    },
+    {
+      "role": "Backend Developer",
+      "company": "Mars Digital",
+      "period": "Oct 2019 - Jan 2020",
+      "current": false,
+      "summary": "Freelance developer. Developed the backend of a financial reporting system for OpenRoad Auto Group (USA) using Node.js.",
+      "highlights": []
+    },
+    {
+      "role": "Fullstack Developer",
+      "company": "Pojokan.io",
+      "period": "2018 - 2019",
+      "current": false,
+      "summary": "A private community where I learned to code and worked on national/international projects.",
+      "highlights": [
+        "Frontend: Developed online meeting platform with ReactJs.",
+        "Backend: Built LMS with NodeJS.",
+        "Fullstack: Developed healthcare platform for Doctor Kai (Australia) using React Native."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "program": "Software Engineering",
+      "school": "Telkom University Surabaya",
+      "status": "Present",
+      "description": "Major in Rekayasa Perangkat Lunak. Focusing on modern software development practices and system architecture."
+    },
+    {
+      "program": "Computer & Network Engineering",
+      "school": "SMKN 1 Karanganyar",
+      "status": "Graduated",
+      "description": "Major in Teknik Komputer dan Jaringan (TKJ). Learned about network infrastructure, server administration, and hardware troubleshooting."
+    }
+  ]
+}

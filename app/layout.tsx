@@ -26,7 +26,6 @@ materialSymbolsUrl.searchParams.set(
     "arrow_outward",
     "arrow_right_alt",
     "chat",
-    "check_circle",
     "close",
     "code",
     "commit",

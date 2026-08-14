@@ -1,8 +1,12 @@
 import { DiscordStatusBadge } from "@/components/DiscordPresence"
+import InlineMarkup from "@/components/InlineMarkup"
 import Reveal from "@/components/motion/Reveal"
 import { StaggerGroup, StaggerItem } from "@/components/motion/Stagger"
+import { getAbout } from "@/lib/about"
 
 export default function About() {
+    const about = getAbout()
+
     return (
         <main className="grow pt-28 pb-20">
             <div className="max-w-250 mx-auto px-4 md:px-10 flex flex-col gap-16">
@@ -13,7 +17,9 @@ export default function About() {
                         </div>
                         <div
                             className="relative size-48 md:size-64 rounded-4xl overflow-hidden border-4 border-white shadow-2xl shadow-primary/10 rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                            <div className="w-full h-full bg-cover bg-center bg-[url('/about.webp')]">
+                            <div
+                                className="w-full h-full bg-cover bg-center"
+                                style={{ backgroundImage: `url('${about.photo}')` }}>
                             </div>
                         </div>
                         <div className="absolute -bottom-6 -right-6 bg-white p-3 rounded-2xl shadow-lg border border-slate-100 hidden md:block animate-bounce [animation-duration:3s]">
@@ -25,32 +31,24 @@ export default function About() {
                             <DiscordStatusBadge />
                             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-text-main leading-tight">
                                 Hi, I&apos;m <span
-                                    className="text-transparent bg-clip-text bg-linear-to-r from-primary to-sky-400">Dipras</span>.
+                                    className="text-transparent bg-clip-text bg-linear-to-r from-primary to-sky-400">{about.nickname}</span>.
                             </h1>
-                            <h2 className="text-xl md:text-2xl font-medium text-text-muted">Full Stack &amp; Systems Engineer
-                            </h2>
+                            <h2 className="text-xl md:text-2xl font-medium text-text-muted">{about.title}</h2>
                         </div>
                         <p className="text-text-muted text-lg leading-relaxed max-w-2xl">
-                            I bridge the gap between high-level web interfaces and low-level system operations.
-                            Passionate about <strong className="text-text-main">Linux internals</strong>, minimalist code, and
-                            building scalable applications.
-                            When I&apos;m not writing <span
-                                className="font-mono text-primary bg-primary-soft/50 px-1 rounded">JavaScript</span> or <span
-                                    className="font-mono text-primary bg-primary-soft/50 px-1 rounded">PHP</span>, you can find me
-                            optimizing memory allocation in <span
-                                className="font-mono text-primary bg-primary-soft/50 px-1 rounded">C</span>.
+                            <InlineMarkup text={about.intro} />
                         </p>
                         <div className="flex flex-wrap gap-3 justify-center md:justify-start pt-2">
                             <a className="flex items-center gap-2 text-text-main hover:text-primary font-semibold transition-colors"
-                                href="mailto:dipras75@gmail.com">
+                                href={`mailto:${about.email}`}>
                                 <span className="material-symbols-outlined text-xl">mail</span>
-                                dipras75@gmail.com
+                                {about.email}
                             </a>
                             <span className="text-slate-300">|</span>
                             <a className="flex items-center gap-2 text-text-main hover:text-primary font-semibold transition-colors"
-                                href="https://github.com/dipras">
+                                href={`https://${about.github}`}>
                                 <span className="material-symbols-outlined text-xl">public</span>
-                                github.com/dipras
+                                {about.github}
                             </a>
                         </div>
                     </Reveal>
@@ -58,21 +56,11 @@ export default function About() {
                 <Reveal className="w-full py-8 border-y border-dashed border-slate-200">
                     <div
                         className="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-12 opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
-                        <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
-                            <span className="material-symbols-outlined text-3xl">javascript</span> JS/TS
-                        </div>
-                        <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
-                            <span className="material-symbols-outlined text-3xl">php</span> PHP
-                        </div>
-                        <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
-                            <span className="material-symbols-outlined text-3xl">smartphone</span> React Native
-                        </div>
-                        <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
-                            <span className="material-symbols-outlined text-3xl">memory</span> C / Systems
-                        </div>
-                        <div className="flex items-center gap-2 font-bold text-xl text-slate-600">
-                            <span className="material-symbols-outlined text-3xl">terminal</span> Linux
-                        </div>
+                        {about.skills.map((skill) => (
+                            <div key={skill.label} className="flex items-center gap-2 font-bold text-xl text-slate-600">
+                                <span className="material-symbols-outlined text-3xl">{skill.icon}</span> {skill.label}
+                            </div>
+                        ))}
                     </div>
                 </Reveal>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
@@ -84,153 +72,33 @@ export default function About() {
                             <h3 className="text-2xl font-bold text-text-main">Experience</h3>
                         </div>
                         <StaggerGroup className="relative pl-8 border-l border-slate-200 space-y-10">
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Fullstack Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Starasia Perkasa Teknologi</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2026 - Present</span>
+                            {about.experience.map((job) => (
+                                <StaggerItem key={`${job.company}-${job.period}`} className="relative">
+                                    <span
+                                        className={`absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white ${job.current
+                                            ? 'bg-primary shadow-md'
+                                            : 'bg-slate-300 group-hover:bg-primary transition-colors'
+                                            }`}></span>
+                                    <div className="flex flex-col gap-2 group">
+                                        <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
+                                            {job.role}</h4>
+                                        <div className="flex items-center justify-between text-sm">
+                                            <span className="font-semibold text-slate-700">{job.company}</span>
+                                            <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">{job.period}</span>
+                                        </div>
+                                        <div className="text-text-muted leading-relaxed mt-1 text-sm">
+                                            <p className={job.highlights.length > 0 ? "mb-2" : undefined}>{job.summary}</p>
+                                            {job.highlights.length > 0 && (
+                                                <ul className="list-disc pl-4 space-y-1">
+                                                    {job.highlights.map((highlight) => (
+                                                        <li key={highlight}>{highlight}</li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">
-                                            I currently work as a Fullstack Developer at Star Perkasa Teknologi, developing a modular enterprise Super App used to digitize and automate internal business operations.
-                                        </p>
-
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            <li>Architect and develop enterprise modules using React.js & Express.js</li>
-                                            <li>Implement complex approval workflows, role-based access control (RBAC), and business process automation.</li>
-                                            <li>Develop financial and HR-related modules including Cash Advance, Business Travel, and Assessment Center.</li>
-                                            <li>Design reusable backend APIs and shared frontend components for a modular application ecosystem.</li>
-                                            <li>Collaborate in an Agile development environment, participating in requirement analysis, implementation, testing, and deployment.</li>
-                                            <li>Continuously improve application performance, maintainability, and scalability following modern software engineering best practices.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-primary shadow-md"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Fullstack Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Export Expert</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2024 - 2026</span>
-                                    </div>
-                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">I was work as a Fullstack Developer at Export Expert Indonesia, an exclusive integration platform designed to empower Indonesians eager to explore the export industry.</p>
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            <li>Develop and maintain the main website of exportexpert.id using React.js.</li>
-                                            <li>Build the backend server with NestJS, ensuring scalable architecture.</li>
-                                            <li>Create the mobile application using React Native for Android and iOS.</li>
-                                            <li>Develop the admin panel with Bun.js for internal management.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Community Moderator</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Web Programming Unpas</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2022 - 2024</span>
-                                    </div>
-                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">Moderator for the Web Programming UNPAS Discord community.</p>
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            <li>Contributed to Bellshade, a GitHub repository for learning programming.</li>
-                                            <li>Moderated the WPU CSS War event in 2022.</li>
-                                            <li>Served as a moderator for WPUCast podcast.</li>
-                                            <li>Helped organize the Kartini Day event.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Fullstack Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Aspenku</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2022 - 2024</span>
-                                    </div>
-                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">Developed several projects for a goods export company based in Jakarta.</p>
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            <li>Backend Server: Developed API using Node.js.</li>
-                                            <li>Frontend Website: Built aspenku.com using React.js.</li>
-                                            <li>Mobile Application: Developed app using React Native.</li>
-                                            <li>Admin Panel: Created dashboard using Next.js.</li>
-                                            <li>NLC Website: Developed nlc.aspenku.com with WordPress.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Wordpress Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">KPMI</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2020 - 2022</span>
-                                    </div>
-                                    <p className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        Responsible for developing, customizing, and maintaining the organization&apos;s website to support its mission in empowering Muslim entrepreneurs across Indonesia.
-                                    </p>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Backend Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Mars Digital</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">Oct 2019 - Jan 2020</span>
-                                    </div>
-                                    <p className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        Freelance developer. Developed the backend of a financial reporting system for OpenRoad Auto Group (USA) using Node.js.
-                                    </p>
-                                </div>
-                            </StaggerItem>
-
-                            <StaggerItem className="relative">
-                                <span
-                                    className="absolute -left-9.25 top-1 size-4 rounded-full border-2 border-white bg-slate-300 group-hover:bg-primary transition-colors"></span>
-                                <div className="flex flex-col gap-2 group">
-                                    <h4 className="text-xl font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Fullstack Developer</h4>
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="font-semibold text-slate-700">Pojokan.io</span>
-                                        <span className="px-2 py-1 rounded-md bg-slate-100 text-text-muted font-medium">2018 - 2019</span>
-                                    </div>
-                                    <div className="text-text-muted leading-relaxed mt-1 text-sm">
-                                        <p className="mb-2">A private community where I learned to code and worked on national/international projects.</p>
-                                        <ul className="list-disc pl-4 space-y-1">
-                                            <li>Frontend: Developed online meeting platform with ReactJs.</li>
-                                            <li>Backend: Built LMS with NodeJS.</li>
-                                            <li>Fullstack: Developed healthcare platform for Doctor Kai (Australia) using React Native.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </StaggerItem>
+                                </StaggerItem>
+                            ))}
                         </StaggerGroup>
                     </div>
                     <div className="flex flex-col gap-8">
@@ -241,56 +109,20 @@ export default function About() {
                             <h3 className="text-2xl font-bold text-text-main">Education</h3>
                         </div>
                         <StaggerGroup className="flex flex-col gap-6">
-                            <StaggerItem
-                                className="group p-6 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h4 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Software Engineering</h4>
-                                    <span
-                                        className="text-sm font-medium text-text-muted bg-slate-50 px-2 py-1 rounded-md border border-slate-100">Present</span>
-                                </div>
-                                <div className="text-slate-700 font-medium mb-2">Telkom University Surabaya</div>
-                                <p className="text-sm text-text-muted">
-                                    Major in Rekayasa Perangkat Lunak. Focusing on modern software development practices and system architecture.
-                                </p>
-                            </StaggerItem>
-                            <StaggerItem
-                                className="group p-6 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h4 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors">
-                                        Computer & Network Engineering</h4>
-                                    <span
-                                        className="text-sm font-medium text-text-muted bg-slate-50 px-2 py-1 rounded-md border border-slate-100">Graduated</span>
-                                </div>
-                                <div className="text-slate-700 font-medium mb-2">SMKN 1 Karanganyar</div>
-                                <p className="text-sm text-text-muted">
-                                    Major in Teknik Komputer dan Jaringan (TKJ). Learned about network infrastructure, server administration, and hardware troubleshooting.
-                                </p>
-                            </StaggerItem>
-                            <StaggerItem className="mt-4 p-6 rounded-3xl bg-slate-50 border border-dashed border-slate-200">
-                                <h4 className="text-sm font-bold text-text-muted uppercase tracking-wider mb-4">Certifications
-                                </h4>
-                                <div className="flex flex-wrap gap-2">
-                                    <span
-                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm">
+                            {about.education.map((school) => (
+                                <StaggerItem
+                                    key={school.school}
+                                    className="group p-6 rounded-3xl bg-card border border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h4 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors">
+                                            {school.program}</h4>
                                         <span
-                                            className="material-symbols-outlined text-[14px] text-green-500">check_circle</span>
-                                        LFCS (Linux Foundation)
-                                    </span>
-                                    <span
-                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm">
-                                        <span
-                                            className="material-symbols-outlined text-[14px] text-green-500">check_circle</span>
-                                        AWS Certified Developer
-                                    </span>
-                                    <span
-                                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm">
-                                        <span
-                                            className="material-symbols-outlined text-[14px] text-green-500">check_circle</span>
-                                        Cisco CCNA
-                                    </span>
-                                </div>
-                            </StaggerItem>
+                                            className="text-sm font-medium text-text-muted bg-slate-50 px-2 py-1 rounded-md border border-slate-100">{school.status}</span>
+                                    </div>
+                                    <div className="text-slate-700 font-medium mb-2">{school.school}</div>
+                                    <p className="text-sm text-text-muted">{school.description}</p>
+                                </StaggerItem>
+                            ))}
                         </StaggerGroup>
                     </div>
                 </div>
@@ -313,7 +145,7 @@ export default function About() {
                             className="px-8 py-4 rounded-xl bg-white text-primary font-bold shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all transform hover:-translate-y-1">
                             Contact Me
                         </a>
-                        <a href="/aldy_prastyo.pdf"
+                        <a href="/resume.pdf"
                             className="px-8 py-4 rounded-xl bg-primary-hover border border-white/20 text-white font-bold hover:bg-sky-800 transition-all flex items-center justify-center gap-2">
                             <span className="material-symbols-outlined text-[20px]">download</span>
                             Download CV

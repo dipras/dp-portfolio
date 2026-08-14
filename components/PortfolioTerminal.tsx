@@ -120,7 +120,7 @@ const catCommand: TerminalCommandHandler = ([name]) => {
     return (
       <p className="text-slate-400">
         cat: resume.pdf: binary file. Grab it from the{" "}
-        <a href="/aldy_prastyo.pdf" className="text-sky-400 underline underline-offset-2" target="_blank" rel="noreferrer">
+        <a href="/resume.pdf" className="text-sky-400 underline underline-offset-2" target="_blank" rel="noreferrer">
           Resume link
         </a>{" "}
         in the navbar instead.

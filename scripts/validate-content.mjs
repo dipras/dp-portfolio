@@ -137,5 +137,55 @@ for (const collection of collections) {
   }
 }
 
+await validateAbout();
+
+async function validateAbout() {
+  const file = path.join(root, "content", "about.json");
+  const label = path.relative(root, file);
+  let about;
+
+  try {
+    about = JSON.parse(await readFile(file, "utf8"));
+  } catch (error) {
+    console.error(`${label}: cannot read file (${error.message})`);
+    hasErrors = true;
+    return;
+  }
+
+  for (const field of ["name", "nickname", "title", "email", "website", "github", "photo", "intro"]) {
+    if (typeof about[field] !== "string" || about[field] === "") {
+      console.error(`${label}: "${field}" must be a non-empty string`);
+      hasErrors = true;
+    }
+  }
+  await validateLocalAsset(`${label}: photo`, about.photo);
+
+  const lists = {
+    skills: ["label", "icon"],
+    resumeSkills: ["group", "items"],
+    experience: ["role", "company", "period", "summary", "highlights"],
+    education: ["program", "school", "status", "description"],
+  };
+
+  for (const [key, fields] of Object.entries(lists)) {
+    if (!Array.isArray(about[key]) || about[key].length === 0) {
+      console.error(`${label}: "${key}" must be a non-empty array`);
+      hasErrors = true;
+      continue;
+    }
+
+    for (const [index, entry] of about[key].entries()) {
+      for (const field of fields) {
+        const value = entry?.[field];
+        const isValid = Array.isArray(value) ? true : typeof value === "string" && value !== "";
+        if (!isValid) {
+          console.error(`${label}: ${key}[${index}].${field} is required`);
+          hasErrors = true;
+        }
+      }
+    }
+  }
+}
+
 if (hasErrors) process.exit(1);
 console.log("Content JSON is valid.");

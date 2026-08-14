@@ -56,7 +56,7 @@ export default function Navbar() {
                         );
                     })}
                 </nav>
-                <a href='/aldy_prastyo.pdf'
+                <a href='/resume.pdf'
                     className="hidden md:flex items-center justify-center gap-2 rounded-full h-10 px-6 bg-primary text-white text-sm font-semibold hover:bg-primary-hover transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transform hover:-translate-y-0.5 active:translate-y-0">
                     <span>Resume</span>
                     <span className="material-symbols-outlined text-[18px]">download</span>
@@ -105,7 +105,7 @@ export default function Navbar() {
                             );
                         })}
                         <a
-                            href="/aldy_prastyo.pdf"
+                            href="/resume.pdf"
                             onClick={() => setIsMenuOpen(false)}
                             className="mt-1 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
                         >
